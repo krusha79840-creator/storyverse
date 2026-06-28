@@ -9,14 +9,17 @@ const StoryVerse = {
   initTheme() {
     const savedTheme = localStorage.getItem(this.DARK_MODE_KEY);
     const root = document.documentElement;
-    
-    if (savedTheme === "enabled") {
-      root.classList.add("dark-mode");
-      root.classList.add("dark"); // Tailwind dark: variant support
+
+    // Default to dark mode: activate unless the user has explicitly chosen light
+    const isDark = savedTheme !== "disabled";
+
+    if (isDark) {
+      root.classList.add("dark-mode", "dark"); // Tailwind dark: variant support
+      // Persist so first-visit state is always stored
+      if (!savedTheme) localStorage.setItem(this.DARK_MODE_KEY, "enabled");
       this.updateDarkModeToggles(true);
     } else {
-      root.classList.remove("dark-mode");
-      root.classList.remove("dark");
+      root.classList.remove("dark-mode", "dark");
       this.updateDarkModeToggles(false);
     }
   },

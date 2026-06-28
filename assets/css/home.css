@@ -90,6 +90,22 @@
   animation: h-orb-float var(--orb-dur, 14s) ease-in-out infinite;
   animation-delay: var(--orb-delay, 0s);
 }
+
+/*
+  CRITICAL MOBILE FIX — Orb containment layer.
+  CSS filter:blur on absolutely-positioned children escapes ancestor
+  overflow:hidden on iOS Safari and Chrome for Android. Wrapping the
+  orbs in their own absolutely-positioned overflow:hidden div that fills
+  the hero section (inset:0) is the only reliable cross-browser fix.
+  The hero section's overflow:hidden remains as a secondary guard.
+*/
+.hero-orbs-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
 @keyframes h-orb-float {
   0%, 100% { transform: translate(0, 0) scale(1); }
   33%       { transform: translate(30px, -20px) scale(1.05); }

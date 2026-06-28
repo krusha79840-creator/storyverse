@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StoryVerse – Magical Stories for Kids</title>
+  <meta name="description"
+    content="Discover magical bedtime stories, fairy tales, adventure, moral lessons, and space stories loved by children and parents. Safe, educational, and fun for ages 4–12.">
+  <meta property="og:title" content="StoryVerse – Magical Stories for Kids">
+  <meta property="og:description" content="A premium storytelling website with 50+ magical stories for kids ages 4–12.">
+
+  <!-- Theme: apply before paint to prevent flash of wrong theme -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('storyverse_dark_mode');
+        if (t === 'enabled') {
+          document.documentElement.classList.add('dark-mode', 'dark');
+        }
+      } catch (e) { }
+    })();
+  </script>
+
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="assets/css/home.css">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            purple: { DEFAULT: '#6C63FF', light: '#8B80F9', dark: '#4B3AE3' },
+            yellow: { DEFAULT: '#FFD166', dark: '#FFB703' },
+            orange: { DEFAULT: '#FFB703' },
+            mint: { DEFAULT: '#06D6A0' },
+            blue: { DEFAULT: '#90E0EF' },
+            cream: { DEFAULT: '#FFFDF9' }
+          },
+          fontFamily: {
+            heading: ['Fredoka', 'sans-serif'],
+            body: ['Nunito', 'sans-serif'],
+            ui: ['Poppins', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+
+<body class="transition-all duration-300">
+
+  <!-- ===== STICKY NAVBAR ===== -->
+  <nav id="main-navbar"
+    class="fixed top-0 left-0 w-full z-50 py-4 px-6 md:px-12 transition-all duration-300 glass-panel border-b border-white/20">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <!-- Logo -->
+      <a href="index.html" class="flex items-center gap-2.5 select-none group">
+        <div
+          class="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple to-mint flex items-center justify-center text-white shadow-lg shadow-purple/30 group-hover:rotate-12 transition-transform duration-300">
+          <i data-lucide="sparkles" class="w-5 h-5"></i>
+        </div>
+        <span
+          class="text-2xl font-bold bg-gradient-to-r from-purple to-mint bg-clip-text text-transparent font-heading leading-none">StoryVerse</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-8 font-ui font-semibold text-sm">
+        <a href="index.html" class="text-purple border-b-2 border-purple pb-0.5">Home</a>
+        <a href="stories.html" class="text-gray-600 dark:text-gray-300 hover:text-purple transition-colors">Stories</a>
+        <a href="#categories"
+          class="text-gray-600 dark:text-gray-300 hover:text-purple transition-colors">Categories</a>
+        <a href="#why-choose" class="text-gray-600 dark:text-gray-300 hover:text-purple transition-colors">About</a>
+        <a href="#contact" class="text-gray-600 dark:text-gray-300 hover:text-purple transition-colors">Contact</a>
+      </div>
+
+      <!-- Actions -->
+      <div class="hidden md:flex items-center gap-3">
+        <button onclick="StoryVerse.toggleTheme()"
+          class="dark-mode-toggle-btn w-10 h-10 rounded-full flex items-center justify-center hover:bg-purple/10 border border-purple/15 transition-all hover:scale-110">
+          <i data-lucide="moon" class="w-5 h-5 text-purple"></i>
+        </button>
+        <a href="stories.html"
+          class="btn-grad px-6 py-2.5 rounded-full font-ui font-bold text-sm flex items-center gap-2">
+          <span>Read Now</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+      <!-- Mobile -->
+      <div class="flex md:hidden items-center gap-2">
+        <button onclick="StoryVerse.toggleTheme()"
+          class="dark-mode-toggle-btn w-9 h-9 rounded-full flex items-center justify-center hover:bg-purple/10 transition-all">
+          <i data-lucide="moon" class="w-5 h-5 text-purple"></i>
+        </button>
+        <button id="mobile-menu-btn"
+          class="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-purple/10 transition-colors">
+          <i data-lucide="menu" class="w-5 h-5 text-gray-700 dark:text-slate-300"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu"
+      class="hidden md:hidden mt-3 pb-4 px-2 flex flex-col gap-1 font-ui font-semibold text-sm border-t border-purple/10 pt-3">
+      <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-purple bg-purple/5">
+        <i data-lucide="home" class="w-4 h-4"></i> Home
+      </a>
+      <a href="stories.html"
+        class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 dark:text-slate-200 hover:bg-purple/5 hover:text-purple transition-colors">
+        <i data-lucide="book-open" class="w-4 h-4"></i> Stories
+      </a>
+      <a href="#categories"
+        class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 dark:text-slate-200 hover:bg-purple/5 hover:text-purple transition-colors">
+        <i data-lucide="layout-grid" class="w-4 h-4"></i> Categories
+      </a>
+      <a href="#why-choose"
+        class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 dark:text-slate-200 hover:bg-purple/5 hover:text-purple transition-colors">
+        <i data-lucide="info" class="w-4 h-4"></i> About
+      </a>
+      <a href="#contact"
+        class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 dark:text-slate-200 hover:bg-purple/5 hover:text-purple transition-colors">
+        <i data-lucide="mail" class="w-4 h-4"></i> Contact
+      </a>
+      <a href="stories.html" class="btn-grad mt-2 py-3 rounded-full flex items-center justify-center gap-2">
+        <i data-lucide="book-open" class="w-4 h-4"></i> Start Reading
+      </a>
+    </div>
+  </nav>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="hero-section px-6 md:px-12">
+    <!-- Aurora background -->
+    <div class="hero-aurora"></div>
+
+    <!-- Star field (populated by JS) -->
+    <div class="hero-stars-field" id="hero-stars-field"></div>
+
+    <!-- Floating orbs -->
+    <div class="hero-orb w-80 h-80 bg-purple/20 top-16 -left-24" style="--orb-dur:16s; --orb-delay:0s;"></div>
+    <div class="hero-orb w-72 h-72 bg-mint/15 bottom-24 -right-20" style="--orb-dur:20s; --orb-delay:3s;"></div>
+    <div class="hero-orb w-64 h-64 bg-yellow/10 top-1/2 left-1/3" style="--orb-dur:13s; --orb-delay:1.5s;"></div>
+    <div class="hero-orb w-48 h-48 bg-pink-500/10 bottom-32 left-1/4" style="--orb-dur:18s; --orb-delay:4s;"></div>
+
+    <div class="max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center gap-10 lg:gap-16 py-10 lg:py-16">
+
+      <!-- LEFT: Hero Text -->
+      <div class="hero-content flex-1 text-center lg:text-left max-w-2xl mx-auto lg:mx-0">
+        <!-- Eyebrow badge -->
+        <div class="hero-badge mb-6 mx-auto lg:mx-0 w-fit">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 animate-sparkle"></i>
+          <span>Welcome to the Realm of Imagination</span>
+        </div>
+
+        <!-- Main headline -->
+        <h1 class="hero-heading text-5xl sm:text-6xl xl:text-7xl mb-6" id="hero-h1">
+          Where Every<br>
+          Story Begins<br>
+          With <span class="hero-gradient-text">Magic </span>✨
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="hero-subtitle text-lg md:text-xl mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed">
+          Dive into 50+ magical bedtime stories, fairy tales, and adventures — crafted to spark imagination and inspire
+          young minds.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="hero-cta-row flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10">
+          <a href="stories.html" id="start-reading-btn" class="btn-hero-primary">
+            📖 Start Reading
+          </a>
+          <a href="stories.html?explore=true" class="btn-hero-secondary">
+            ✨ Explore Stories
+          </a>
+        </div>
+
+        <!-- Mini stats -->
+        <div
+          class="hero-mini-stats flex items-center justify-center lg:justify-start gap-8 pt-6 border-t border-purple/10">
+          <div class="text-center">
+            <div class="hero-mini-stat-value">50+</div>
+            <div class="hero-mini-stat-label">Stories</div>
+          </div>
+          <div class="w-px h-10 bg-purple/15"></div>
+          <div class="text-center">
+            <div class="hero-mini-stat-value" style="color:#06d6a0">12</div>
+            <div class="hero-mini-stat-label">Categories</div>
+          </div>
+          <div class="w-px h-10 bg-purple/15"></div>
+          <div class="text-center">
+            <div class="hero-mini-stat-value" style="color:#f43f5e">100%</div>
+            <div class="hero-mini-stat-label">Kid Safe</div>
+          </div>
+          <div class="w-px h-10 bg-purple/15"></div>
+          <div class="text-center">
+            <div class="hero-mini-stat-value" style="color:#ffd166">4.9★</div>
+            <div class="hero-mini-stat-label">Rated</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Immersive SVG Illustration -->
+      <div class="hero-illustration-wrap flex-1 w-full max-w-lg lg:max-w-xl">
+        <div class="hero-svg-frame">
+          <svg class="hero-svg w-full" viewBox="0 0 560 480" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="h-sky" x1="0%" y1="0%" x2="10%" y2="100%">
+                <stop offset="0%" stop-color="#050118" />
+                <stop offset="35%" stop-color="#12064a" />
+                <stop offset="70%" stop-color="#2d1070" />
+                <stop offset="100%" stop-color="#5b2fa0" />
+              </linearGradient>
+              <radialGradient id="h-moonGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#fff8e1" stop-opacity="0.5" />
+                <stop offset="100%" stop-color="#ffd54f" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="h-bookGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.7" />
+                <stop offset="100%" stop-color="#6c63ff" stop-opacity="0" />
+              </radialGradient>
+              <filter id="h-glow">
+                <feGaussianBlur stdDeviation="7" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+              <filter id="h-softglow">
+                <feGaussianBlur stdDeviation="3.5" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+              <filter id="h-booklight">
+                <feGaussianBlur stdDeviation="14" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+              <linearGradient id="h-rainbow1" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#ff6b6b" />
+                <stop offset="20%" stop-color="#ffd93d" />
+                <stop offset="45%" stop-color="#6bcb77" />
+                <stop offset="70%" stop-color="#4d96ff" />
+                <stop offset="100%" stop-color="#c77dff" />
+              </linearGradient>
+              <linearGradient id="h-castle" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.92" />
+                <stop offset="100%" stop-color="#4c1d95" stop-opacity="0.97" />
+              </linearGradient>
+              <linearGradient id="h-bookcover" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#7c3aed" />
+                <stop offset="100%" stop-color="#4f46e5" />
+              </linearGradient>
+              <linearGradient id="h-page" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#fff8f0" />
+                <stop offset="100%" stop-color="#ffecd2" />
+              </linearGradient>
+              <linearGradient id="h-grass" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#065f46" />
+                <stop offset="100%" stop-color="#064e3b" />
+              </linearGradient>
+            </defs>
+
+            <!-- Sky -->
+            <rect width="560" height="480" fill="url(#h-sky)" />
+
+            <!-- Stars -->
+            <g fill="#fff" class="hero-stars">
+              <circle cx="28" cy="22" r="1.3" opacity="0.9" />
+              <circle cx="72" cy="13" r="0.8" opacity="0.7" />
+              <circle cx="118" cy="34" r="1.5" opacity="0.85" />
+              <circle cx="175" cy="10" r="1.0" opacity="0.8" />
+              <circle cx="215" cy="26" r="0.7" opacity="0.6" />
+              <circle cx="272" cy="14" r="1.3" opacity="0.9" />
+              <circle cx="325" cy="8" r="0.9" opacity="0.75" />
+              <circle cx="388" cy="19" r="1.1" opacity="0.85" />
+              <circle cx="448" cy="11" r="0.8" opacity="0.7" />
+              <circle cx="508" cy="29" r="1.2" opacity="0.9" />
+              <circle cx="538" cy="9" r="0.7" opacity="0.65" />
+              <circle cx="14" cy="54" r="0.9" opacity="0.6" />
+              <circle cx="58" cy="68" r="1.1" opacity="0.8" />
+              <circle cx="152" cy="58" r="0.8" opacity="0.7" />
+              <circle cx="238" cy="48" r="1.3" opacity="0.85" />
+              <circle cx="308" cy="63" r="0.7" opacity="0.6" />
+              <circle cx="418" cy="48" r="1.0" opacity="0.75" />
+              <circle cx="492" cy="62" r="1.2" opacity="0.9" />
+              <circle cx="528" cy="53" r="0.8" opacity="0.65" />
+              <!-- Sparkle stars -->
+              <polygon points="92,42 94.5,49 102,49 96,53.5 98,61 92,57 86,61 88,53.5 82,49 89.5,49" fill="#ffe57f"
+                opacity="0.75" transform="scale(0.55) translate(75,30)" />
+              <polygon points="376,32 378,38 384,38 380,42 382,48 376,45 370,48 372,42 368,38 374,38" fill="#ffe57f"
+                opacity="0.65" transform="scale(0.55) translate(168,22)" />
+            </g>
+
+            <!-- Moon glow halo -->
+            <circle cx="455" cy="72" r="64" fill="url(#h-moonGlow)" />
+            <!-- Moon -->
+            <circle cx="455" cy="72" r="40" fill="rgba(255,236,153,0.20)" filter="url(#h-glow)" />
+            <path d="M437,44 A37,37 0 1,0 476,101 A29,29 0 1,1 437,44Z" fill="#ffd54f" filter="url(#h-softglow)" />
+            <!-- Moon craters -->
+            <circle cx="447" cy="61" r="4.5" fill="rgba(190,140,0,0.22)" />
+            <circle cx="460" cy="79" r="6" fill="rgba(190,140,0,0.17)" />
+            <circle cx="471" cy="57" r="3" fill="rgba(190,140,0,0.20)" />
+
+            <!-- Clouds -->
+            <g class="hero-cloud-1" opacity="0.85">
+              <ellipse cx="82" cy="112" rx="52" ry="23" fill="rgba(255,255,255,0.11)" />
+              <ellipse cx="56" cy="118" rx="32" ry="19" fill="rgba(255,255,255,0.09)" />
+              <ellipse cx="114" cy="120" rx="29" ry="15" fill="rgba(255,255,255,0.08)" />
+            </g>
+            <g class="hero-cloud-2" opacity="0.70">
+              <ellipse cx="432" cy="132" rx="56" ry="21" fill="rgba(255,255,255,0.09)" />
+              <ellipse cx="402" cy="137" rx="33" ry="17" fill="rgba(255,255,255,0.07)" />
+              <ellipse cx="462" cy="140" rx="31" ry="14" fill="rgba(255,255,255,0.06)" />
+            </g>
+            <g class="hero-cloud-3" opacity="0.50">
+              <ellipse cx="232" cy="96" rx="42" ry="17" fill="rgba(255,255,255,0.08)" />
+              <ellipse cx="212" cy="102" rx="26" ry="13" fill="rgba(255,255,255,0.06)" />
+            </g>
+
+            <!-- Rainbow arcs -->
+            <path d="M18,382 A272,272 0 0,1 542,382" fill="none" stroke="url(#h-rainbow1)" stroke-width="22"
+              opacity="0.18" stroke-linecap="round" />
+            <path d="M40,382 A250,250 0 0,1 520,382" fill="none" stroke="url(#h-rainbow1)" stroke-width="16"
+              opacity="0.22" stroke-linecap="round" />
+            <path d="M62,382 A228,228 0 0,1 498,382" fill="none" stroke="url(#h-rainbow1)" stroke-width="12"
+              opacity="0.14" stroke-linecap="round" />
+
+            <!-- Ground -->
+            <path d="M0,382 Q140,357 280,372 Q420,352 560,378 L560,480 L0,480Z" fill="url(#h-grass)" />
+            <path d="M0,402 Q120,384 280,394 Q410,377 560,397 L560,480 L0,480Z" fill="#047857" opacity="0.65" />
+
+            <!-- Castle -->
+            <g transform="translate(155,182)" opacity="0.92">
+              <rect x="0" y="62" width="33" height="92" fill="url(#h-castle)" rx="2" />
+              <polygon points="-4,62 16.5,26 37,62" fill="#6d28d9" />
+              <rect x="10" y="87" width="13" height="19" fill="#ffd54f" rx="2" opacity="0.85" />
+              <rect x="152" y="62" width="33" height="92" fill="url(#h-castle)" rx="2" />
+              <polygon points="148,62 168.5,26 189,62" fill="#6d28d9" />
+              <rect x="158" y="87" width="13" height="19" fill="#ffd54f" rx="2" opacity="0.85" />
+              <rect x="35" y="76" width="115" height="82" fill="#5b21b6" rx="3" />
+              <rect x="69" y="36" width="47" height="42" fill="url(#h-castle)" />
+              <polygon points="59,36 92.5,3 126,36" fill="#7c3aed" />
+              <rect x="46" y="89" width="14" height="21" fill="#ffd54f" rx="2" opacity="0.90" />
+              <rect x="123" y="89" width="14" height="21" fill="#ffd54f" rx="2" opacity="0.90" />
+              <rect x="84" y="49" width="14" height="21" fill="#ffd54f" rx="2" opacity="0.90" />
+              <path d="M79,158 A15,15 0 0,1 106,158Z" fill="#2e1065" />
+              <rect x="79" y="158" width="27" height="14" fill="#2e1065" />
+              <line x1="16.5" y1="26" x2="16.5" y2="9" stroke="#ffd54f" stroke-width="2.5" />
+              <polygon points="16.5,9 31,14 16.5,19" fill="#f43f5e" />
+              <line x1="168.5" y1="26" x2="168.5" y2="9" stroke="#ffd54f" stroke-width="2.5" />
+              <polygon points="168.5,9 183,14 168.5,19" fill="#f43f5e" />
+              <line x1="92.5" y1="3" x2="92.5" y2="-14" stroke="#ffd54f" stroke-width="2.5" />
+              <polygon points="92.5,-14 107,-9 92.5,-4" fill="#06d6a0" />
+            </g>
+
+            <!-- Trees left -->
+            <g transform="translate(28,322)">
+              <rect x="6" y="30" width="8" height="46" fill="#374151" />
+              <circle cx="10" cy="22" r="23" fill="#065f46" />
+              <circle cx="0" cy="28" r="16" fill="#047857" />
+              <circle cx="20" cy="30" r="14" fill="#059669" />
+            </g>
+            <g transform="translate(58,332)">
+              <rect x="5" y="28" width="7" height="40" fill="#374151" />
+              <path d="M8,0 L28,50 L-12,50Z" fill="#064e3b" />
+              <path d="M8,-12 L26,32 L-10,32Z" fill="#065f46" />
+            </g>
+
+            <!-- Trees right -->
+            <g transform="translate(480,316)">
+              <rect x="5" y="32" width="8" height="48" fill="#374151" />
+              <circle cx="9" cy="24" r="24" fill="#065f46" />
+              <circle cx="-2" cy="30" r="17" fill="#047857" />
+              <circle cx="18" cy="32" r="15" fill="#059669" />
+            </g>
+            <g transform="translate(510,326)">
+              <rect x="5" y="28" width="7" height="42" fill="#374151" />
+              <path d="M8,0 L30,50 L-14,50Z" fill="#064e3b" />
+              <path d="M8,-12 L28,34 L-12,34Z" fill="#065f46" />
+            </g>
+
+            <!-- Dragon -->
+            <g transform="translate(40,148)" class="hero-dragon">
+              <path d="M33,8 C52,-22 43,-40 25,-14Z" fill="#10b981" opacity="0.9" />
+              <path d="M-6,6 C-26,-24 -13,-40 6,-16Z" fill="#059669" opacity="0.9" />
+              <ellipse cx="14" cy="25" rx="29" ry="18" fill="#34d399" />
+              <circle cx="35" cy="10" r="16" fill="#34d399" />
+              <path d="M-18,25 Q-38,37 -46,18 Q-35,6 -18,21Z" fill="#10b981" />
+              <circle cx="39" cy="7" r="4" fill="#fff" />
+              <circle cx="40" cy="7" r="2.5" fill="#1a1a2e" />
+              <circle cx="39" cy="6" r="1" fill="#fff" />
+              <polygon points="8,6 12,-5 17,8" fill="#fbbf24" />
+              <polygon points="-2,11 2,0 6,13" fill="#fbbf24" />
+              <ellipse cx="52" cy="6" rx="9" ry="5" fill="#f97316" opacity="0.55" />
+              <ellipse cx="61" cy="6" rx="6" ry="3.5" fill="#fcd34d" opacity="0.45" />
+            </g>
+
+            <!-- Floating Magical Book -->
+            <g transform="translate(195,172)" class="hero-book">
+              <!-- Glow halo -->
+              <ellipse cx="90" cy="128" rx="82" ry="32" fill="rgba(139,92,246,0.28)" filter="url(#h-booklight)" />
+              <!-- Shadow -->
+              <ellipse cx="90" cy="158" rx="72" ry="16" fill="rgba(0,0,0,0.32)" />
+              <!-- Left page -->
+              <path d="M8,32 Q8,10 90,5 L90,142 Q8,148 8,128Z" fill="url(#h-page)" />
+              <!-- Right page -->
+              <path d="M172,32 Q172,10 90,5 L90,142 Q172,148 172,128Z" fill="#fff8f0" />
+              <!-- Spine -->
+              <rect x="86" y="5" width="8" height="137" fill="#7c3aed" rx="2" />
+              <!-- Left cover -->
+              <path d="M5,32 Q5,8 88,3 L88,147 Q5,152 5,130Z" fill="url(#h-bookcover)" opacity="0.92" />
+              <!-- Right cover -->
+              <path d="M175,32 Q175,8 92,3 L92,147 Q175,152 175,130Z" fill="#4f46e5" opacity="0.92" />
+              <!-- Page lines left -->
+              <line x1="26" y1="52" x2="80" y2="50" stroke="rgba(100,80,180,0.28)" stroke-width="1.5" />
+              <line x1="26" y1="65" x2="80" y2="63" stroke="rgba(100,80,180,0.28)" stroke-width="1.5" />
+              <line x1="26" y1="78" x2="80" y2="76" stroke="rgba(100,80,180,0.28)" stroke-width="1.5" />
+              <line x1="26" y1="91" x2="80" y2="89" stroke="rgba(100,80,180,0.28)" stroke-width="1.5" />
+              <line x1="26" y1="104" x2="80" y2="102" stroke="rgba(100,80,180,0.28)" stroke-width="1.5" />
+              <!-- Page lines right -->
+              <line x1="100" y1="52" x2="155" y2="50" stroke="rgba(100,80,180,0.22)" stroke-width="1.5" />
+              <line x1="100" y1="65" x2="155" y2="63" stroke="rgba(100,80,180,0.22)" stroke-width="1.5" />
+              <line x1="100" y1="78" x2="155" y2="76" stroke="rgba(100,80,180,0.22)" stroke-width="1.5" />
+              <line x1="100" y1="91" x2="155" y2="89" stroke="rgba(100,80,180,0.22)" stroke-width="1.5" />
+              <!-- Star on left page -->
+              <polygon points="55,26 57.5,33 65,33 59,38 61,45 55,40 49,45 51,38 45,33 52.5,33" fill="#fbbf24"
+                opacity="0.85" />
+              <!-- Heart on right page -->
+              <path d="M122,31 C122,27 117,22 114,26 C111,22 106,27 106,31 C106,37 114,44 114,44 C114,44 122,37 122,31Z"
+                fill="#f43f5e" opacity="0.75" />
+              <!-- Glow center top -->
+              <circle cx="90" cy="-12" r="7" fill="#c4b5fd" opacity="0.85" filter="url(#h-softglow)" />
+              <circle cx="90" cy="-12" r="3.5" fill="#fff" opacity="0.95" />
+              <!-- Sparkles from book -->
+              <circle cx="58" cy="-17" r="4.5" fill="#ffd54f" opacity="0.75" />
+              <circle cx="122" cy="-19" r="3.5" fill="#ffd54f" opacity="0.65" />
+              <circle cx="43" cy="-6" r="3" fill="#a78bfa" opacity="0.82" />
+              <circle cx="137" cy="-9" r="3" fill="#a78bfa" opacity="0.72" />
+              <circle cx="30" cy="-20" r="2" fill="#06d6a0" opacity="0.75" />
+              <circle cx="150" cy="-24" r="2" fill="#06d6a0" opacity="0.65" />
+            </g>
+
+            <!-- Bunny -->
+            <g transform="translate(418,342)" class="hero-bunny">
+              <ellipse cx="22" cy="27" rx="23" ry="19" fill="#f8fafc" />
+              <ellipse cx="37" cy="12" rx="14" ry="13" fill="#f8fafc" />
+              <ellipse cx="29" cy="-5" rx="5.5" ry="15" fill="#f8fafc" transform="rotate(-12,29,-5)" />
+              <ellipse cx="29" cy="-5" rx="2.8" ry="12" fill="#fecdd3" transform="rotate(-12,29,-5)" />
+              <ellipse cx="43" cy="-8" rx="5.5" ry="15" fill="#f8fafc" transform="rotate(12,43,-8)" />
+              <ellipse cx="43" cy="-8" rx="2.8" ry="12" fill="#fecdd3" transform="rotate(12,43,-8)" />
+              <circle cx="41" cy="11" r="3.5" fill="#1a1a2e" />
+              <circle cx="40" cy="10" r="1.2" fill="#fff" />
+              <circle cx="47" cy="16" r="2.2" fill="#fda4af" />
+              <circle cx="2" cy="31" r="7.5" fill="#f0f4f8" />
+              <!-- Sparkles near bunny -->
+              <circle cx="56" cy="5" r="3" fill="#ffd54f" opacity="0.72" />
+              <circle cx="62" cy="17" r="2" fill="#c4b5fd" opacity="0.72" />
+            </g>
+
+            <!-- Fireflies -->
+            <g class="hero-fireflies">
+              <circle cx="142" cy="252" r="3.8" fill="#fef08a" opacity="0.82" filter="url(#h-softglow)" />
+              <circle cx="392" cy="262" r="3.2" fill="#fef08a" opacity="0.72" filter="url(#h-softglow)" />
+              <circle cx="102" cy="312" r="2.8" fill="#a7f3d0" opacity="0.82" filter="url(#h-softglow)" />
+              <circle cx="462" cy="292" r="3.2" fill="#fef08a" opacity="0.78" filter="url(#h-softglow)" />
+              <circle cx="322" cy="298" r="2.2" fill="#c4b5fd" opacity="0.82" filter="url(#h-softglow)" />
+              <circle cx="172" cy="332" r="2.8" fill="#a7f3d0" opacity="0.72" filter="url(#h-softglow)" />
+              <circle cx="492" cy="322" r="2.2" fill="#fef08a" opacity="0.82" filter="url(#h-softglow)" />
+            </g>
+
+            <!-- Twinkle sparkles -->
+            <g fill="#ffd54f">
+              <circle cx="148" cy="160" r="3.2" class="twinkle-1" />
+              <circle cx="410" cy="150" r="2.7" class="twinkle-2" />
+              <circle cx="378" cy="298" r="2.2" class="twinkle-3" />
+              <circle cx="84" cy="282" r="2.7" class="twinkle-1" />
+              <circle cx="512" cy="222" r="2.2" class="twinkle-2" />
+            </g>
+
+            <!-- Light rays from book -->
+            <g opacity="0.08" class="book-rays">
+              <line x1="285" y1="242" x2="118" y2="150" stroke="#c4b5fd" stroke-width="3" />
+              <line x1="285" y1="242" x2="452" y2="142" stroke="#c4b5fd" stroke-width="3" />
+              <line x1="285" y1="242" x2="285" y2="98" stroke="#c4b5fd" stroke-width="3.5" />
+              <line x1="285" y1="242" x2="148" y2="342" stroke="#c4b5fd" stroke-width="2" />
+              <line x1="285" y1="242" x2="422" y2="342" stroke="#c4b5fd" stroke-width="2" />
+            </g>
+          </svg>
+        </div>
+
+        <!-- Floating mini badge below illustration -->
+        <div class="flex items-center justify-center gap-3 mt-4">
+          <div class="flex -space-x-2">
+            <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=alice"
+              class="w-8 h-8 rounded-full border-2 border-white/60 bg-purple/20" alt="Reader">
+            <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=bob"
+              class="w-8 h-8 rounded-full border-2 border-white/60 bg-mint/20" alt="Reader">
+            <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=carol"
+              class="w-8 h-8 rounded-full border-2 border-white/60 bg-yellow/20" alt="Reader">
+          </div>
+          <span class="text-xs font-bold text-gray-500 dark:text-slate-400 font-ui">
+            <span class="text-purple font-extrabold">10,000+</span> happy young readers!
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="hero-scroll-hint">
+      <i data-lucide="chevrons-down" class="w-7 h-7"></i>
+    </div>
+  </section>
+
+  <!-- ===== STATS BAR ===== -->
+  <section class="stats-bar py-10 px-6 md:px-12">
+    <div class="max-w-4xl mx-auto">
+      <div class="stats-glass-pill h-reveal" data-reveal>
+        <div class="stat-item">
+          <div class="stat-number" data-target="50" data-suffix="+">0</div>
+          <div class="stat-label">Magical Stories</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-number mint-grad" data-target="12">0</div>
+          <div class="stat-label">Story Categories</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-number orange-grad" data-target="10000" data-suffix="+" data-format="k">0</div>
+          <div class="stat-label">Happy Readers</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-number pink-grad" data-target="49" data-display="4.9" data-suffix="★">4.9</div>
+          <div class="stat-label">Average Rating</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STORY CATEGORIES ===== -->
+  <section id="categories" class="py-24 px-6 md:px-12 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-purple/4 via-transparent to-mint/4 pointer-events-none"></div>
+    <div class="max-w-7xl mx-auto relative">
+      <div class="text-center mb-14">
+        <div class="section-eyebrow eyebrow-orange mb-5 mx-auto w-fit h-reveal" data-reveal>
+          <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+          <span>Explore by Genre</span>
+        </div>
+        <h2 class="section-title text-4xl md:text-5xl mb-4 h-reveal" data-reveal>Magical Story Categories</h2>
+        <p class="section-subtitle max-w-lg mx-auto text-base md:text-lg h-reveal" data-reveal>
+          Pick your favorite magical world and dive into hundreds of unforgettable adventures!
+        </p>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-5" id="categories-container"></div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURED STORIES ===== -->
+  <section class="py-24 px-6 md:px-12">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-4">
+        <div>
+          <div class="section-eyebrow eyebrow-purple mb-5 w-fit h-reveal" data-reveal>
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 animate-sparkle"></i>
+            <span>Editor's Picks</span>
+          </div>
+          <h2 class="section-title text-4xl md:text-5xl h-reveal" data-reveal>Featured Stories</h2>
+        </div>
+        <a href="stories.html"
+          class="btn-grad px-8 py-3 rounded-2xl font-ui font-bold text-sm flex items-center gap-2 self-start md:self-end h-reveal"
+          data-reveal>
+          <span>View All 50 Stories</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="featured-stories-container"></div>
+    </div>
+  </section>
+
+  <!-- ===== WHY CHOOSE STORYVERSE ===== -->
+  <section id="why-choose" class="py-24 px-6 md:px-12 relative">
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-purple/3 to-transparent pointer-events-none">
+    </div>
+    <div class="max-w-7xl mx-auto relative">
+      <div class="text-center mb-14">
+        <div class="section-eyebrow eyebrow-mint mb-5 mx-auto w-fit h-reveal" data-reveal>
+          <i data-lucide="award" class="w-3.5 h-3.5"></i>
+          <span>Why Families Love Us</span>
+        </div>
+        <h2 class="section-title text-4xl md:text-5xl mb-4 h-reveal" data-reveal>Why Choose StoryVerse?</h2>
+        <p class="section-subtitle max-w-xl mx-auto text-base md:text-lg h-reveal" data-reveal>
+          We make reading magical, safe, and educational — creating a premium digital storybook for every child.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="feature-card h-reveal" data-reveal style="--fc-gradient: linear-gradient(90deg, #6c63ff, #06d6a0);">
+          <div class="feature-icon-wrap fi-purple">
+            <i data-lucide="book-open" class="w-7 h-7 text-purple"></i>
+          </div>
+          <div class="feature-card-title">50+ Amazing Stories</div>
+          <div class="feature-card-desc">From fairy tales and dragons to space adventures and dinosaur epics — there's
+            always a new story waiting.</div>
+        </div>
+        <div class="feature-card h-reveal h-reveal-delay-1" data-reveal
+          style="--fc-gradient: linear-gradient(90deg, #fbbf24, #f97316);">
+          <div class="feature-icon-wrap fi-gold">
+            <i data-lucide="graduation-cap" class="w-7 h-7 text-amber-500"></i>
+          </div>
+          <div class="feature-card-title">100% Educational</div>
+          <div class="feature-card-desc">Every story boosts language skills, vocabulary, emotional intelligence, and
+            moral values.</div>
+        </div>
+        <div class="feature-card h-reveal h-reveal-delay-2" data-reveal
+          style="--fc-gradient: linear-gradient(90deg, #06d6a0, #0891b2);">
+          <div class="feature-icon-wrap fi-mint">
+            <i data-lucide="shield-check" class="w-7 h-7 text-teal-600"></i>
+          </div>
+          <div class="feature-card-title">Safe for Kids</div>
+          <div class="feature-card-desc">Zero ads, no external links, and every story is carefully reviewed by our child
+            safety team.</div>
+        </div>
+        <div class="feature-card h-reveal" data-reveal style="--fc-gradient: linear-gradient(90deg, #f43f5e, #c026d3);">
+          <div class="feature-icon-wrap fi-pink">
+            <i data-lucide="moon" class="w-7 h-7 text-pink-500"></i>
+          </div>
+          <div class="feature-card-title">Perfect Bedtime Stories</div>
+          <div class="feature-card-desc">Soothing, calming tales with text-to-speech to help kids wind down and drift
+            into sweet dreams.</div>
+        </div>
+        <div class="feature-card h-reveal h-reveal-delay-1" data-reveal
+          style="--fc-gradient: linear-gradient(90deg, #4f46e5, #7c3aed);">
+          <div class="feature-icon-wrap fi-purple">
+            <i data-lucide="heart" class="w-7 h-7 text-indigo-500"></i>
+          </div>
+          <div class="feature-card-title">Moral Lessons</div>
+          <div class="feature-card-desc">Stories that teach kindness, courage, honesty, and friendship through
+            captivating characters.</div>
+        </div>
+        <div class="feature-card h-reveal h-reveal-delay-2" data-reveal
+          style="--fc-gradient: linear-gradient(90deg, #38bdf8, #6c63ff);">
+          <div class="feature-icon-wrap fi-blue">
+            <i data-lucide="smartphone" class="w-7 h-7 text-sky-500"></i>
+          </div>
+          <div class="feature-card-title">Read Anywhere</div>
+          <div class="feature-card-desc">Beautiful on every screen — tablet, phone, laptop, and desktop. Bookmarks sync
+            so kids never lose their place.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIALS ===== -->
+  <section class="py-24 px-6 md:px-12 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-purple/3 via-transparent to-mint/3 pointer-events-none"></div>
+    <div class="max-w-4xl mx-auto relative">
+      <div class="text-center mb-14">
+        <div class="section-eyebrow eyebrow-purple mb-5 mx-auto w-fit h-reveal" data-reveal>
+          <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+          <span>Real Family Reviews</span>
+        </div>
+        <h2 class="section-title text-4xl md:text-5xl h-reveal" data-reveal>What Parents &amp; Kids Say</h2>
+      </div>
+
+      <div class="testimonial-glass-wrap glass-panel rounded-[36px] border border-white/25 shadow-2xl p-2 h-reveal"
+        data-reveal>
+        <div class="quote-mark">"</div>
+        <div class="testimonial-track" id="testimonial-track">
+
+          <!-- Review 1 -->
+          <div class="min-w-full flex flex-col items-center text-center p-8 md:p-14">
+            <div class="flex items-center gap-1 text-yellow mb-6">
+              <i data-lucide="star" class="w-6 h-6 fill-current"></i><i data-lucide="star"
+                class="w-6 h-6 fill-current"></i><i data-lucide="star" class="w-6 h-6 fill-current"></i><i
+                data-lucide="star" class="w-6 h-6 fill-current"></i><i data-lucide="star"
+                class="w-6 h-6 fill-current"></i>
+            </div>
+            <p class="testimonial-text mb-10 max-w-2xl">
+              "StoryVerse transformed our bedtime routine! My 6-year-old looks forward to reading every night. The
+              text-to-speech is amazing when I'm too tired to read aloud. Absolutely magical!"
+            </p>
+            <div class="flex items-center gap-4">
+              <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Sarah" alt="Sarah"
+                class="w-14 h-14 rounded-full border-4 border-purple/20 bg-purple/10">
+              <div class="text-left">
+                <div class="testimonial-author-name">Sarah M.</div>
+                <div class="testimonial-author-role">Parent of two kids (Ages 6 &amp; 8)</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Review 2 -->
+          <div class="min-w-full flex flex-col items-center text-center p-8 md:p-14">
+            <div class="flex items-center gap-1 text-yellow mb-6">
+              <i data-lucide="star" class="w-6 h-6 fill-current"></i><i data-lucide="star"
+                class="w-6 h-6 fill-current"></i><i data-lucide="star" class="w-6 h-6 fill-current"></i><i
+                data-lucide="star" class="w-6 h-6 fill-current"></i><i data-lucide="star"
+                class="w-6 h-6 fill-current"></i>
+            </div>
+            <p class="testimonial-text mb-10 max-w-2xl">
+              "I love the Moon Adventure story SO much! The rocket is so cool and I can listen to it! The pictures are
+              colorful. I want to read every single story on this website forever!"
+            </p>
+            <div class="flex items-center gap-4">
+              <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Leo9" alt="Leo"
+                class="w-14 h-14 rounded-full border-4 border-yellow/20 bg-yellow/10">
+              <div class="text-left">
+                <div class="testimonial-author-name">Leo D.</div>
+                <div class="testimonial-author-role">Kid Reader, Age 9 ⭐</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Review 3 -->
+          <div class="min-w-full flex flex-col items-center text-center p-8 md:p-14">
+            <div class="flex items-center gap-1 text-yellow mb-6">
+              <i data-lucide="star" class="w-6 h-6 fill-current"></i><i data-lucide="star"
+                class="w-6 h-6 fill-current"></i><i data-lucide="star" class="w-6 h-6 fill-current"></i><i
+                data-lucide="star" class="w-6 h-6 fill-current"></i><i data-lucide="star"
+                class="w-6 h-6 fill-current"></i>
+            </div>
+            <p class="testimonial-text mb-10 max-w-2xl">
+              "Finding quality, safe content for children online is extremely difficult. StoryVerse is a gem. The moral
+              stories teach values like honesty and courage in the most delightful, unforgettable way."
+            </p>
+            <div class="flex items-center gap-4">
+              <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=James" alt="James"
+                class="w-14 h-14 rounded-full border-4 border-mint/20 bg-mint/10">
+              <div class="text-left">
+                <div class="testimonial-author-name">James K.</div>
+                <div class="testimonial-author-role">Elementary School Teacher</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dots -->
+        <div class="flex justify-center gap-2 py-5" id="testimonial-dots">
+          <button class="w-8 h-2 rounded-full bg-purple transition-all" data-slide="0" aria-label="Slide 1"></button>
+          <button class="w-2 h-2 rounded-full bg-purple/25 transition-all" data-slide="1" aria-label="Slide 2"></button>
+          <button class="w-2 h-2 rounded-full bg-purple/25 transition-all" data-slide="2" aria-label="Slide 3"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA SECTION ===== -->
+  <section id="contact" class="py-16 px-6 md:px-12">
+    <div class="max-w-6xl mx-auto">
+      <div class="cta-section shadow-2xl shadow-purple/30">
+        <div class="cta-aurora"></div>
+        <div class="cta-blob-1"></div>
+        <div class="cta-blob-2"></div>
+
+        <!-- Floating CTA stars (populated by JS) -->
+        <div class="cta-stars" id="cta-stars-field" aria-hidden="true"></div>
+
+        <!-- Sparkle dots -->
+        <div class="absolute top-8 left-16 w-3 h-3 bg-yellow rounded-full opacity-70 animate-twinkle"
+          aria-hidden="true"></div>
+        <div class="absolute bottom-12 right-24 w-2 h-2 bg-mint rounded-full opacity-60 animate-twinkle"
+          style="animation-delay:1s" aria-hidden="true"></div>
+        <div class="absolute top-20 right-16 w-2.5 h-2.5 bg-white rounded-full opacity-40 animate-twinkle"
+          style="animation-delay:0.5s" aria-hidden="true"></div>
+        <div class="absolute bottom-8 left-32 w-2 h-2 bg-yellow rounded-full opacity-50 animate-twinkle"
+          style="animation-delay:1.8s" aria-hidden="true"></div>
+
+        <div class="cta-content relative z-10 text-center py-16 px-8 md:py-20 md:px-16">
+          <div
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/15 border border-white/25 text-white font-ui font-bold text-xs mb-6 uppercase tracking-widest backdrop-blur-sm">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 animate-sparkle"></i>
+            <span>Join the StoryVerse Club</span>
+          </div>
+
+          <h2 class="cta-title mb-5">
+            Begin Your<br>
+            <span
+              style="background:linear-gradient(135deg,#ffd166,#06d6a0); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">Magical
+              Journey</span> Today
+          </h2>
+
+          <p class="cta-subtitle max-w-md mx-auto mb-10">
+            Join thousands of families exploring magical worlds, learning life lessons, and falling in love with reading
+            — one story at a time.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4 justify-center mb-10">
+            <a href="stories.html" class="btn-hero-primary">
+              📖 Start Reading Free
+            </a>
+            <a href="stories.html?explore=true"
+              class="inline-flex items-center gap-3 px-9 py-4 rounded-full border-2 border-white/50 text-white font-ui font-bold text-base hover:bg-white/15 transition-all hover:-translate-y-1 backdrop-blur-sm">
+              ✨ Explore Stories
+            </a>
+          </div>
+
+          <!-- Newsletter -->
+          <div class="max-w-sm mx-auto">
+            <p class="text-white/70 font-ui text-sm mb-3">Or get weekly stories delivered free:</p>
+            <form onsubmit="subscribeNewsletter(event)" class="flex gap-2">
+              <input type="email" placeholder="your@email.com" required
+                class="flex-1 px-4 py-3 rounded-xl text-slate-800 bg-white/95 border-2 border-transparent focus:outline-none focus:border-yellow font-ui text-sm shadow-lg">
+              <button type="submit"
+                class="btn-yellow px-5 py-3 rounded-xl font-ui font-bold text-sm flex items-center gap-1.5">
+                <i data-lucide="send" class="w-4 h-4"></i>
+                <span>Go</span>
+              </button>
+            </form>
+            <p class="text-xs text-white/50 mt-3 font-ui">🔒 No spam. Unsubscribe anytime.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer-premium py-16 px-6 md:px-12 mt-8">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-10">
+
+      <!-- Brand -->
+      <div class="md:col-span-2">
+        <a href="index.html" class="flex items-center gap-2.5 mb-6 select-none">
+          <div
+            class="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple to-mint flex items-center justify-center text-white shadow-lg">
+            <i data-lucide="sparkles" class="w-5 h-5"></i>
+          </div>
+          <span class="footer-logo-text">StoryVerse</span>
+        </a>
+        <p class="footer-desc mb-6 max-w-xs">
+          Sparking imagination, building character, and making every bedtime a magical journey for young minds around
+          the world.
+        </p>
+        <div class="flex items-center gap-3">
+          <a href="#" class="footer-social-btn" aria-label="Facebook"><i data-lucide="share-2" class="w-4 h-4"></i></a>
+          <a href="#" class="footer-social-btn" aria-label="Instagram"><i data-lucide="image" class="w-4 h-4"></i></a>
+          <a href="#" class="footer-social-btn" aria-label="Twitter"><i data-lucide="message-circle"
+              class="w-4 h-4"></i></a>
+          <a href="#" class="footer-social-btn" aria-label="YouTube"><i data-lucide="play-circle"
+              class="w-4 h-4"></i></a>
+        </div>
+      </div>
+
+      <!-- Explore -->
+      <div>
+        <h4 class="footer-heading">Explore</h4>
+        <ul class="flex flex-col gap-3">
+          <li><a href="index.html" class="footer-link">Home</a></li>
+          <li><a href="stories.html" class="footer-link">Stories Library</a></li>
+          <li><a href="#categories" class="footer-link">Categories</a></li>
+          <li><a href="#why-choose" class="footer-link">Why Choose Us</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h4 class="footer-heading">Contact</h4>
+        <ul class="flex flex-col gap-3">
+          <li class="flex items-center gap-2 text-slate-500 text-sm font-body">
+            <i data-lucide="map-pin" class="w-4 h-4 text-purple flex-shrink-0"></i>
+            <span>Dreamy Fields, CA 90210</span>
+          </li>
+          <li class="flex items-center gap-2 text-slate-500 text-sm font-body">
+            <i data-lucide="mail" class="w-4 h-4 text-purple flex-shrink-0"></i>
+            <span>hello@storyverse.com</span>
+          </li>
+          <li class="flex items-center gap-2 text-slate-500 text-sm font-body">
+            <i data-lucide="phone" class="w-4 h-4 text-purple flex-shrink-0"></i>
+            <span>(800) 555-KIDS</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div
+      class="max-w-7xl mx-auto pt-8 border-t footer-divider flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="footer-copy">© 2026 StoryVerse – Magical Stories for Kids. All rights reserved. ✨</div>
+      <div class="flex gap-6 font-semibold text-xs">
+        <a href="#" class="footer-link">Privacy Policy</a>
+        <a href="#" class="footer-link">Terms &amp; Conditions</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- Scroll-to-Top -->
+  <button id="scroll-to-top"
+    class="fixed bottom-6 left-6 w-12 h-12 rounded-full btn-grad opacity-0 translate-y-10 transition-all duration-400 z-50 flex items-center justify-center shadow-xl"
+    aria-label="Scroll to top">
+    <i data-lucide="arrow-up" class="w-5 h-5"></i>
+  </button>
+
+  <!-- Scripts -->
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/illustrations.js"></script>
+  <script src="assets/js/core.js"></script>
+  <script src="assets/js/home.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    function subscribeNewsletter(e) {
+      e.preventDefault();
+      const input = e.target.querySelector('input');
+      if (input.value) {
+        StoryVerse.showToast("Welcome aboard! 🎉 Your first magical story is on its way!");
+        if (typeof confetti !== 'undefined') confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
+        input.value = '';
+      }
+    }
+  </script>
+</body>
+
+</html>

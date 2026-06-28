@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Reading – StoryVerse</title>
+  <meta name="description" id="page-meta" content="Read a magical story on StoryVerse.">
+
+  <!-- Theme: apply before paint to prevent flash of wrong theme -->
+  <script>
+    (function(){
+      try {
+        var t = localStorage.getItem('storyverse_dark_mode');
+        if (t === 'enabled') {
+          document.documentElement.classList.add('dark-mode', 'dark');
+        }
+      } catch(e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            purple: { DEFAULT: '#6C63FF', light: '#8B80F9', dark: '#4B3AE3' },
+            yellow: { DEFAULT: '#FFD166', dark: '#FFB703' },
+            orange: { DEFAULT: '#FFB703' },
+            mint:   { DEFAULT: '#06D6A0' },
+            blue:   { DEFAULT: '#90E0EF' },
+            cream:  { DEFAULT: '#FFFDF9' }
+          },
+          fontFamily: {
+            heading: ['Fredoka', 'sans-serif'],
+            body:    ['Nunito', 'sans-serif'],
+            ui:      ['Poppins', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="transition-all duration-300">
+
+  <!-- Reading progress bar (top) -->
+  <div class="fixed top-0 left-0 w-full z-[60] h-1.5 bg-purple/10">
+    <div id="reading-progress" class="h-full w-0 rounded-r-full"></div>
+  </div>
+
+  <!-- Ambient Blobs -->
+  <div class="decor-blob w-72 h-72 bg-purple/12 top-24 -right-16 opacity-40 animate-float-slow" style="position:fixed;"></div>
+  <div class="decor-blob w-64 h-64 bg-mint/10 bottom-24 -left-16 opacity-30 animate-float-delayed" style="position:fixed;"></div>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav id="main-navbar" class="fixed top-1.5 left-0 w-full z-50 py-4 px-4 md:px-8 transition-all duration-300 glass-panel border-b border-white/20">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3 flex-1 min-w-0">
+        <a href="index.html" class="flex items-center gap-2 select-none group flex-shrink-0">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-purple to-mint flex items-center justify-center text-white shadow-md shadow-purple/30 group-hover:rotate-12 transition-transform duration-300">
+            <i data-lucide="sparkles" class="w-4.5 h-4.5"></i>
+          </div>
+          <span class="text-xl font-bold bg-gradient-to-r from-purple to-mint bg-clip-text text-transparent font-heading hidden sm:block">StoryVerse</span>
+        </a>
+        <!-- Breadcrumb -->
+        <div class="flex items-center gap-2 text-xs text-gray-400 dark:text-slate-500 font-ui truncate min-w-0">
+          <a href="index.html" class="hover:text-purple transition-colors flex-shrink-0">Home</a>
+          <i data-lucide="chevron-right" class="w-3 h-3 flex-shrink-0"></i>
+          <a href="stories.html" class="hover:text-purple transition-colors flex-shrink-0">Library</a>
+          <i data-lucide="chevron-right" class="w-3 h-3 flex-shrink-0"></i>
+          <span id="breadcrumb-title" class="text-purple font-semibold truncate">Story</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 flex-shrink-0">
+        <button onclick="StoryVerse.toggleTheme()" class="dark-mode-toggle-btn w-9 h-9 rounded-full flex items-center justify-center hover:bg-purple/10 border border-purple/15 transition-all hover:scale-110">
+          <i data-lucide="moon" class="w-4 h-4 text-purple"></i>
+        </button>
+        <a href="stories.html" class="hidden sm:flex btn-grad px-5 py-2 rounded-full font-ui font-bold text-xs items-center gap-2">
+          <i data-lucide="library" class="w-3.5 h-3.5"></i>
+          <span>Explore Library</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== STORY CONTENT ===== -->
+  <main class="pt-28 pb-16 px-4 md:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col xl:flex-row gap-8 items-start">
+
+        <!-- ===== LEFT SIDEBAR: Reading Tools ===== -->
+        <aside class="w-full xl:w-72 flex-shrink-0 xl:sticky xl:top-28">
+          <div class="glass-card rounded-3xl p-6 border border-white/25 shadow-xl">
+            <h2 class="font-bold font-ui text-xs uppercase tracking-widest text-purple/70 mb-5">Reading Tools</h2>
+
+            <!-- TTS Listen Out Loud -->
+            <div class="mb-6">
+              <h3 class="font-bold font-ui text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-3">
+                <i data-lucide="volume-2" class="w-3.5 h-3.5 inline mr-1.5 text-mint"></i>Listen Out Loud
+              </h3>
+              <div class="flex items-center gap-2 mb-3">
+                <button id="tts-toggle-btn" onclick="readJS.toggleTTS()" class="flex-1 py-2.5 px-4 rounded-xl btn-mint flex items-center justify-center gap-2 font-ui font-bold text-xs">
+                  <i data-lucide="play-circle" class="w-4 h-4"></i>
+                  <span>Listen</span>
+                </button>
+                <button id="tts-stop-btn" onclick="readJS.stopTTS()" class="hidden w-10 h-10 rounded-xl bg-red-500 text-white flex items-center justify-center hover:bg-red-600 transition-colors">
+                  <i data-lucide="square" class="w-4 h-4"></i>
+                </button>
+              </div>
+              <div class="flex items-center gap-3">
+                <label class="text-xs font-bold text-slate-400 font-ui flex-shrink-0">Speed</label>
+                <input id="tts-speed" type="range" min="0.5" max="2" step="0.1" value="1" class="flex-1 accent-purple cursor-pointer h-1.5">
+                <span id="tts-speed-label" class="text-xs font-bold text-purple font-ui w-10">Normal</span>
+              </div>
+            </div>
+
+            <!-- Font Size -->
+            <div class="mb-6">
+              <h3 class="font-bold font-ui text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-3">
+                <i data-lucide="type" class="w-3.5 h-3.5 inline mr-1.5 text-purple"></i>Font Size
+              </h3>
+              <div class="flex items-center gap-2">
+                <button data-size="sm"   onclick="readJS.setFontSize('sm')"   class="font-size-btn flex-1 py-2.5 rounded-xl border border-purple/20 font-bold font-ui text-xs hover:bg-purple hover:text-white hover:border-purple transition-all" style="font-size: 11px;">Sm</button>
+                <button data-size="base" onclick="readJS.setFontSize('base')" class="font-size-btn flex-1 py-2.5 rounded-xl border border-purple bg-purple text-white font-bold font-ui text-xs transition-all" style="font-size: 13px;">Base</button>
+                <button data-size="lg"   onclick="readJS.setFontSize('lg')"   class="font-size-btn flex-1 py-2.5 rounded-xl border border-purple/20 font-bold font-ui text-xs hover:bg-purple hover:text-white hover:border-purple transition-all" style="font-size: 15px;">Lg</button>
+                <button data-size="xl"   onclick="readJS.setFontSize('xl')"   class="font-size-btn flex-1 py-2.5 rounded-xl border border-purple/20 font-bold font-ui text-xs hover:bg-purple hover:text-white hover:border-purple transition-all" style="font-size: 17px;">XL</button>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col gap-2 mb-6">
+              <button id="like-btn" onclick="readJS.toggleLike()" class="w-full py-2.5 px-4 rounded-xl border border-pink-300/50 dark:border-pink-500/30 hover:border-pink-400 bg-pink-50 dark:bg-pink-900/20 hover:bg-pink-100 dark:hover:bg-pink-900/30 text-pink-600 dark:text-pink-400 font-ui font-bold text-xs transition-all flex items-center justify-center gap-2">
+                <i data-lucide="heart" class="w-4 h-4"></i>
+                <span>Like Story</span>
+              </button>
+              <button id="bookmark-btn" onclick="readJS.toggleBookmark()" class="w-full py-2.5 px-4 rounded-xl border border-purple/20 hover:border-purple bg-purple/5 hover:bg-purple/10 text-purple dark:text-purple-light font-ui font-bold text-xs transition-all flex items-center justify-center gap-2">
+                <i data-lucide="bookmark" class="w-4 h-4"></i>
+                <span>Bookmark</span>
+              </button>
+              <button onclick="readJS.shareStory()" class="w-full py-2.5 px-4 rounded-xl border border-mint/30 hover:border-mint bg-mint/5 hover:bg-mint/10 text-teal-600 dark:text-mint font-ui font-bold text-xs transition-all flex items-center justify-center gap-2">
+                <i data-lucide="share-2" class="w-4 h-4"></i>
+                <span>Share Story</span>
+              </button>
+            </div>
+
+            <a href="stories.html" class="flex items-center justify-center gap-2 text-xs font-bold text-gray-400 hover:text-purple dark:hover:text-purple-light transition-colors font-ui py-2">
+              <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+              Back to Library
+            </a>
+          </div>
+
+          <!-- Progress tracker -->
+          <div class="glass-card rounded-3xl p-5 border border-white/25 shadow-lg mt-4">
+            <h3 class="font-bold font-ui text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-3">
+              <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 inline mr-1.5 text-orange"></i>Reading Progress
+            </h3>
+            <div class="h-2 bg-purple/10 rounded-full overflow-hidden">
+              <div id="story-progress-bar" class="h-full bg-gradient-to-r from-purple to-mint rounded-full transition-all duration-300 w-0"></div>
+            </div>
+            <div class="flex justify-between mt-2 text-xs font-bold font-ui text-gray-400">
+              <span>Start</span>
+              <span id="progress-pct">0%</span>
+              <span>End</span>
+            </div>
+          </div>
+        </aside>
+
+        <!-- ===== MAIN: Story Content ===== -->
+        <div class="flex-1 min-w-0">
+          <article class="glass-card rounded-3xl border border-white/25 shadow-2xl overflow-hidden">
+            <!-- Story Header -->
+            <div class="p-6 md:p-8 pb-0">
+              <!-- Tags -->
+              <div class="flex flex-wrap items-center gap-2 mb-4">
+                <span id="story-category-badge" class="px-3 py-1 rounded-full bg-purple/10 text-purple font-ui font-bold text-xs uppercase tracking-wider border border-purple/15">Category</span>
+                <span id="story-age-badge" class="px-3 py-1 rounded-full bg-orange/10 text-orange font-ui font-bold text-xs border border-orange/15">Ages</span>
+              </div>
+
+              <!-- Title -->
+              <h1 id="story-title" class="text-3xl md:text-4xl font-heading text-slate-800 dark:text-white leading-tight mb-4">Loading Story...</h1>
+
+              <!-- Meta -->
+              <div class="flex flex-wrap items-center gap-4 text-sm text-gray-400 dark:text-slate-500 mb-6">
+                <span class="flex items-center gap-1.5 font-ui font-semibold">
+                  <i data-lucide="pen-tool" class="w-3.5 h-3.5 text-purple/60"></i>
+                  Written by <span id="story-author" class="text-purple font-bold ml-1">Author</span>
+                </span>
+                <span class="flex items-center gap-1.5 font-ui font-semibold">
+                  <i data-lucide="clock" class="w-3.5 h-3.5 text-mint/70"></i>
+                  <span id="story-read-time">4 min read</span>
+                </span>
+                <span class="flex items-center gap-1.5 font-ui font-semibold">
+                  <i data-lucide="star" class="w-3.5 h-3.5 text-yellow fill-yellow dark:text-yellow-dark"></i>
+                  <span id="story-rating">4.5</span>
+                </span>
+              </div>
+            </div>
+
+            <!-- Story Illustration -->
+            <div class="mx-6 md:mx-8 mb-6">
+              <div id="story-cover-art" class="w-full h-52 md:h-72 rounded-2xl overflow-hidden shadow-lg border border-white/20" data-svg-title="" data-svg-category=""></div>
+            </div>
+
+            <!-- Story Text -->
+            <div class="px-6 md:px-8 pb-2 text-size-base">
+              <div id="story-content" class="story-text-container text-slate-700 dark:text-slate-200 font-body leading-relaxed"></div>
+            </div>
+
+            <!-- Moral Box -->
+            <div class="mx-6 md:mx-8 my-6">
+              <div id="moral-box" class="hidden p-6 rounded-2xl bg-gradient-to-r from-purple/8 to-mint/8 border border-purple/15 dark:border-purple/20">
+                <div class="flex items-start gap-3">
+                  <div class="w-8 h-8 rounded-xl bg-purple/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <i data-lucide="lightbulb" class="w-4 h-4 text-purple"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold font-ui text-purple text-sm mb-1">Moral of the Story</h4>
+                    <p id="story-moral" class="text-slate-700 dark:text-slate-300 font-body text-sm leading-relaxed italic"></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tags/Themes -->
+            <div class="px-6 md:px-8 pb-6">
+              <h4 class="font-bold font-ui text-xs uppercase tracking-widest text-gray-400 mb-3">Story Themes</h4>
+              <div id="story-tags" class="flex flex-wrap gap-2"></div>
+            </div>
+          </article>
+
+          <!-- ===== PREV / NEXT ===== -->
+          <div class="grid grid-cols-2 gap-4 mt-6">
+            <a id="prev-story-link" href="#" class="glass-card rounded-2xl p-4 border border-white/20 hover:border-purple/30 transition-all group">
+              <div class="flex items-center gap-2 text-gray-400 dark:text-slate-500 mb-1.5">
+                <i data-lucide="arrow-left" class="w-4 h-4 group-hover:-translate-x-1 transition-transform"></i>
+                <span class="text-xs font-bold font-ui uppercase tracking-wider">Previous Story</span>
+              </div>
+              <p id="prev-story-title" class="text-sm font-bold font-ui text-slate-700 dark:text-slate-200 group-hover:text-purple transition-colors line-clamp-2">The Tiny Dragon</p>
+            </a>
+            <a id="next-story-link" href="#" class="glass-card rounded-2xl p-4 border border-white/20 hover:border-purple/30 transition-all group text-right">
+              <div class="flex items-center justify-end gap-2 text-gray-400 dark:text-slate-500 mb-1.5">
+                <span class="text-xs font-bold font-ui uppercase tracking-wider">Next Story</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+              </div>
+              <p id="next-story-title" class="text-sm font-bold font-ui text-slate-700 dark:text-slate-200 group-hover:text-purple transition-colors line-clamp-2">Friendly Unicorn</p>
+            </a>
+          </div>
+
+          <!-- ===== RELATED STORIES ===== -->
+          <section class="mt-10">
+            <h2 class="text-2xl font-heading text-slate-800 dark:text-white mb-5">You Might Also Like</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5" id="related-stories-grid"></div>
+          </section>
+
+          <!-- ===== REVIEWS ===== -->
+          <section class="mt-10" id="reviews-section">
+            <h2 class="text-2xl font-heading text-slate-800 dark:text-white mb-6">Reader Reviews</h2>
+
+            <!-- Existing Reviews -->
+            <div id="reviews-list" class="flex flex-col gap-4 mb-8"></div>
+
+            <!-- Submit Review -->
+            <div class="glass-card rounded-3xl p-6 border border-white/25 shadow-lg">
+              <h3 class="font-bold font-ui text-sm uppercase tracking-widest text-purple/70 mb-5">Leave Your Review</h3>
+              <form id="review-form" class="flex flex-col gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <input id="reviewer-name" type="text" placeholder="Your name..." required
+                    class="px-5 py-3.5 rounded-2xl bg-white/70 dark:bg-slate-800/70 border border-purple/15 text-sm font-body text-slate-800 dark:text-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-purple/20">
+                  <!-- Star rating -->
+                  <div class="flex items-center gap-1 self-center">
+                    <span class="text-xs font-bold text-slate-400 font-ui mr-2">Rating:</span>
+                    <div id="star-rating" class="flex gap-1">
+                      <button type="button" class="star-btn text-2xl text-gray-300 dark:text-slate-600 hover:text-yellow transition-colors" data-val="1">☆</button>
+                      <button type="button" class="star-btn text-2xl text-gray-300 dark:text-slate-600 hover:text-yellow transition-colors" data-val="2">☆</button>
+                      <button type="button" class="star-btn text-2xl text-gray-300 dark:text-slate-600 hover:text-yellow transition-colors" data-val="3">☆</button>
+                      <button type="button" class="star-btn text-2xl text-gray-300 dark:text-slate-600 hover:text-yellow transition-colors" data-val="4">☆</button>
+                      <button type="button" class="star-btn text-2xl text-gray-300 dark:text-slate-600 hover:text-yellow transition-colors" data-val="5">☆</button>
+                    </div>
+                    <span id="rating-val" class="text-xs font-bold text-gray-400 font-ui ml-2">0/5</span>
+                  </div>
+                </div>
+                <textarea id="review-text" rows="3" placeholder="What did you think of this story? (min. 10 characters)" required
+                  class="px-5 py-3.5 rounded-2xl bg-white/70 dark:bg-slate-800/70 border border-purple/15 text-sm font-body text-slate-800 dark:text-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-purple/20 resize-none"></textarea>
+                <button type="submit" class="btn-grad py-3.5 px-8 rounded-2xl font-ui font-bold text-sm self-start flex items-center gap-2">
+                  <i data-lucide="send" class="w-4 h-4"></i>
+                  Post Review
+                </button>
+              </form>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- Scroll to Top -->
+  <button id="scroll-to-top" class="fixed bottom-6 right-6 w-12 h-12 rounded-full btn-grad opacity-0 translate-y-10 transition-all duration-400 z-50 flex items-center justify-center shadow-xl">
+    <i data-lucide="arrow-up" class="w-5 h-5"></i>
+  </button>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/illustrations.js"></script>
+  <script src="assets/js/core.js"></script>
+  <script src="assets/js/read.js"></script>
+</body>
+</html>

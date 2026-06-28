@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Story Library – StoryVerse Magical Stories for Kids</title>
+  <meta name="description" content="Search and browse 50+ magical children's stories by category, age group, and reading time. Find the perfect fairy tale, adventure, or moral story.">
+
+  <!-- Theme: apply before paint to prevent flash of wrong theme -->
+  <script>
+    (function(){
+      try {
+        var t = localStorage.getItem('storyverse_dark_mode');
+        if (t === 'enabled') {
+          document.documentElement.classList.add('dark-mode', 'dark');
+        }
+      } catch(e) {}
+    })();
+  </script>
+
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            purple: { DEFAULT: '#6C63FF', light: '#8B80F9', dark: '#4B3AE3' },
+            yellow: { DEFAULT: '#FFD166', dark: '#FFB703' },
+            orange: { DEFAULT: '#FFB703' },
+            mint:   { DEFAULT: '#06D6A0' },
+            blue:   { DEFAULT: '#90E0EF' },
+            cream:  { DEFAULT: '#FFFDF9' }
+          },
+          fontFamily: {
+            heading: ['Fredoka', 'sans-serif'],
+            body:    ['Nunito', 'sans-serif'],
+            ui:      ['Poppins', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body class="transition-all duration-300">
+
+  <!-- Ambient Blobs -->
+  <div class="decor-blob w-80 h-80 bg-purple/15 top-20 -right-20 opacity-40 animate-float-slow" style="position:fixed;"></div>
+  <div class="decor-blob w-72 h-72 bg-mint/15 bottom-20 -left-16 opacity-30 animate-float-delayed" style="position:fixed;"></div>
+
+  <!-- ===== STICKY NAVBAR ===== -->
+  <nav id="main-navbar" class="fixed top-0 left-0 w-full z-50 py-5 px-6 md:px-12 transition-all duration-300 glass-panel border-b border-white/20">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2.5 select-none group">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple to-mint flex items-center justify-center text-white shadow-lg shadow-purple/30 group-hover:rotate-12 transition-transform duration-300">
+          <i data-lucide="sparkles" class="w-5 h-5"></i>
+        </div>
+        <span class="text-2xl font-bold bg-gradient-to-r from-purple to-mint bg-clip-text text-transparent font-heading leading-none">StoryVerse</span>
+      </a>
+
+      <div class="hidden md:flex items-center gap-8 font-ui font-semibold text-sm">
+        <a href="index.html" class="text-gray-600 dark:text-gray-300 hover:text-purple dark:hover:text-purple-light transition-colors">Home</a>
+        <a href="stories.html" class="text-purple border-b-2 border-purple pb-0.5">Stories</a>
+        <a href="index.html#categories" class="text-gray-600 dark:text-gray-300 hover:text-purple dark:hover:text-purple-light transition-colors">Categories</a>
+        <a href="index.html#why-choose" class="text-gray-600 dark:text-gray-300 hover:text-purple dark:hover:text-purple-light transition-colors">About</a>
+        <a href="index.html#contact" class="text-gray-600 dark:text-gray-300 hover:text-purple dark:hover:text-purple-light transition-colors">Contact</a>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button onclick="StoryVerse.toggleTheme()" class="dark-mode-toggle-btn w-10 h-10 rounded-full flex items-center justify-center hover:bg-purple/10 border border-purple/15 transition-all hover:scale-110">
+          <i data-lucide="moon" class="w-5 h-5 text-purple"></i>
+        </button>
+        <a href="stories.html" class="hidden md:flex btn-grad px-6 py-2.5 rounded-full font-ui font-bold text-sm items-center gap-2">
+          <span>Read Now</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO BANNER ===== -->
+  <section class="relative pt-36 pb-16 px-6 md:px-12 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-purple/8 via-transparent to-mint/5 pointer-events-none"></div>
+    <div class="max-w-7xl mx-auto text-center relative z-10">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple/10 text-purple font-ui font-bold text-xs mb-6 uppercase tracking-widest border border-purple/15">
+        <i data-lucide="library" class="w-3.5 h-3.5"></i>
+        <span>Complete Story Library</span>
+      </div>
+      <h1 class="text-4xl md:text-6xl font-heading text-slate-800 dark:text-white mb-4">
+        Explore the <span class="bg-gradient-to-r from-purple to-mint bg-clip-text text-transparent">StoryVerse</span> Library
+      </h1>
+      <p class="text-gray-500 dark:text-slate-400 font-body text-base md:text-lg max-w-xl mx-auto mb-2">
+        Search and filter through all our magical stories to find the perfect adventure!
+      </p>
+      <p class="text-purple dark:text-purple-light font-bold font-ui text-sm" id="story-count-display">50 stories available</p>
+    </div>
+  </section>
+
+  <!-- ===== SEARCH & FILTERS ===== -->
+  <section class="relative px-6 md:px-12 pb-4 pt-2">
+    <div class="max-w-5xl mx-auto">
+      <div class="glass-panel border border-white/25 rounded-3xl p-4 md:p-6 shadow-xl">
+        <!-- Search -->
+        <div class="relative mb-4">
+          <input id="search-input" type="text" placeholder="Search by title, category, or magic words..."
+            class="w-full pl-12 pr-12 py-4 rounded-2xl bg-white/70 dark:bg-slate-800/70 border border-purple/15 font-body text-sm placeholder:text-gray-400 dark:placeholder:text-slate-500 text-slate-800 dark:text-slate-100 transition-all focus:ring-2 focus:ring-purple/30 shadow-inner">
+          <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple/60"></i>
+          <button id="clear-search" class="absolute right-4 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-gray-200/70 dark:bg-slate-600 hover:bg-gray-300 dark:hover:bg-slate-500 transition-colors items-center justify-center hidden">
+            <i data-lucide="x" class="w-3.5 h-3.5 text-gray-600 dark:text-slate-300"></i>
+          </button>
+        </div>
+        <!-- Search suggestions dropdown -->
+        <div id="search-suggestions" class="hidden rounded-2xl overflow-hidden shadow-2xl bg-white dark:bg-slate-800 border border-purple/15 mb-3 max-h-48 overflow-y-auto"></div>
+
+        <!-- Filters Row -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm font-ui">
+          <div>
+            <label class="text-xs font-bold text-purple/70 uppercase tracking-wider mb-1 block">Category</label>
+            <select id="filter-category" class="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-slate-800/70 border border-purple/15 text-slate-700 dark:text-slate-200 cursor-pointer appearance-none font-ui">
+              <option value="">All Categories</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs font-bold text-purple/70 uppercase tracking-wider mb-1 block">Age Group</label>
+            <select id="filter-age" class="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-slate-800/70 border border-purple/15 text-slate-700 dark:text-slate-200 cursor-pointer appearance-none font-ui">
+              <option value="">All Ages</option>
+              <option value="4-6">Ages 4–6</option>
+              <option value="7-9">Ages 7–9</option>
+              <option value="10-12">Ages 10–12</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs font-bold text-purple/70 uppercase tracking-wider mb-1 block">Reading Time</label>
+            <select id="filter-time" class="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-slate-800/70 border border-purple/15 text-slate-700 dark:text-slate-200 cursor-pointer appearance-none font-ui">
+              <option value="">Any Time</option>
+              <option value="short">Short (≤5 min)</option>
+              <option value="medium">Medium (5–10 min)</option>
+              <option value="long">Long (10+ min)</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs font-bold text-purple/70 uppercase tracking-wider mb-1 block">Sort By</label>
+            <select id="sort-by" class="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-slate-800/70 border border-purple/15 text-slate-700 dark:text-slate-200 cursor-pointer appearance-none font-ui">
+              <option value="alpha">Alphabetical (A–Z)</option>
+              <option value="rating">Highest Rated</option>
+              <option value="age-asc">Age: Youngest First</option>
+              <option value="age-desc">Age: Oldest First</option>
+              <option value="time-asc">Shortest First</option>
+              <option value="time-desc">Longest First</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Active filters chips -->
+        <div id="active-filters" class="flex flex-wrap gap-2 mt-3 hidden"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STORIES GRID ===== -->
+  <main class="py-10 px-6 md:px-12">
+    <div class="max-w-7xl mx-auto">
+      <!-- Category Heading (when filtered) -->
+      <div id="filter-heading" class="mb-8 hidden">
+        <div class="flex items-center gap-3">
+          <span class="text-2xl" id="filter-emoji">📚</span>
+          <h2 class="text-2xl font-bold font-heading text-slate-800 dark:text-white" id="filter-title">All Stories</h2>
+          <span class="text-sm text-gray-500 dark:text-slate-400 font-ui" id="filter-count"></span>
+        </div>
+      </div>
+
+      <!-- Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="stories-grid"></div>
+
+      <!-- Empty state -->
+      <div id="empty-state" class="hidden text-center py-24">
+        <div class="text-6xl mb-6">🔍</div>
+        <h3 class="text-2xl font-heading text-slate-700 dark:text-slate-200 mb-3">No Stories Found</h3>
+        <p class="text-gray-400 dark:text-slate-500 mb-6 font-ui">Try adjusting your search or filters to discover something magical!</p>
+        <button id="reset-filters" class="btn-grad px-8 py-3 rounded-2xl font-ui font-bold text-sm">Clear Filters</button>
+      </div>
+
+      <!-- Load more -->
+      <div class="text-center mt-12">
+        <button id="load-more-btn" class="btn-grad px-10 py-4 rounded-2xl font-ui font-bold text-sm hidden flex items-center gap-2 mx-auto">
+          <i data-lucide="chevrons-down" class="w-5 h-5"></i>
+          <span>Load More Stories</span>
+        </button>
+        <p id="all-loaded-msg" class="hidden text-gray-400 dark:text-slate-500 font-ui font-semibold text-sm">🌟 You've explored all magical stories!</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- Scroll to Top -->
+  <button id="scroll-to-top" class="fixed bottom-6 left-6 w-12 h-12 rounded-full btn-grad opacity-0 translate-y-10 transition-all duration-400 z-50 flex items-center justify-center shadow-xl">
+    <i data-lucide="arrow-up" class="w-5 h-5"></i>
+  </button>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/illustrations.js"></script>
+  <script src="assets/js/core.js"></script>
+  <script src="assets/js/stories.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>AOS.init({ duration: 700, once: true, easing: 'ease-out-back', offset: 60 });</script>
+</body>
+</html>

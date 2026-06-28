@@ -1,0 +1,850 @@
+/* =============================================
+   StoryVerse - Premium Stylesheet (v4)
+   Comprehensive Dark Mode – All Components
+   ============================================= */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@300;400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* =============================================
+   CSS CUSTOM PROPERTIES
+   .dark-mode is placed on <html> by core.js.
+   Tailwind dark: variant also works because core.js
+   adds .dark to <html> simultaneously.
+   ============================================= */
+
+/* ---- Light Mode Tokens ---- */
+:root {
+  --purple:           #6C63FF;
+  --purple-light:     #8B80F9;
+  --purple-dark:      #4B3AE3;
+  --yellow:           #FFD166;
+  --orange:           #FFB703;
+  --mint:             #06D6A0;
+  --blue-soft:        #90E0EF;
+  --cream:            #FFFDF9;
+
+  /* Surfaces */
+  --card-bg:          rgba(255, 255, 255, 0.75);
+  --card-border:      rgba(255, 255, 255, 0.6);
+  --shadow:           rgba(108, 99, 255, 0.10);
+  --bg:               #FFFDF9;
+  --navbar-bg:        rgba(255, 253, 249, 0.88);
+
+  /* Input & Select surfaces */
+  --input-bg:         rgba(255, 255, 255, 0.80);
+  --input-border:     rgba(108, 99, 255, 0.18);
+  --input-text:       #2D3748;
+  --input-placeholder:#94A3B8;
+  --select-option-bg: #ffffff;
+
+  /* Text tokens */
+  --text-primary:     #1E2433;
+  --text-secondary:   #4A5568;
+  --text-muted:       #718096;
+  --text:             #1E2433;
+  --text-muted-css:   #718096;
+
+  /* Cover art / image containers */
+  --cover-bg:         #F1F5F9;
+
+  /* Fonts */
+  --font-heading: 'Fredoka', cursive, sans-serif;
+  --font-body:    'Nunito', sans-serif;
+  --font-ui:      'Poppins', sans-serif;
+}
+
+/* ---- Dark Mode Token Overrides ---- */
+/* Applied to <html> so Tailwind dark: variants also fire */
+.dark-mode {
+  --card-bg:          rgba(17, 24, 39, 0.85);
+  --card-border:      rgba(255, 255, 255, 0.08);
+  --shadow:           rgba(0, 0, 0, 0.40);
+  --bg:               #0D1117;
+  --navbar-bg:        rgba(10, 14, 22, 0.92);
+
+  --input-bg:         rgba(30, 41, 59, 0.90);
+  --input-border:     rgba(108, 99, 255, 0.30);
+  --input-text:       #F1F5F9;
+  --input-placeholder:#64748B;
+  --select-option-bg: #1e293b;
+
+  --text-primary:     #F1F5F9;
+  --text-secondary:   #CBD5E1;
+  --text-muted:       #94A3B8;
+  --text:             #F1F5F9;
+  --text-muted-css:   #94A3B8;
+
+  --cover-bg:         #1e293b;
+}
+
+/* =============================================
+   BASE RESET
+   ============================================= */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  transition: background-color 0.4s ease, color 0.4s ease;
+  overflow-x: hidden;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Force body to pick up background when dark-mode is on html */
+.dark-mode body {
+  background-color: var(--bg);
+  color: var(--text-primary);
+}
+
+/* =============================================
+   DARK MODE – GLOBAL ELEMENT OVERRIDES
+   ============================================= */
+
+/* --- Headings --- */
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode h4,
+.dark-mode h5,
+.dark-mode h6 {
+  color: var(--text-primary);
+}
+
+/* --- Body text --- */
+.dark-mode p,
+.dark-mode li {
+  color: inherit;
+}
+
+/* --- Spans without explicit color class --- */
+.dark-mode span:not([class*="text-purple"]):not([class*="text-mint"]):not([class*="text-orange"]):not([class*="text-yellow"]):not([class*="text-indigo"]):not([class*="text-pink"]):not([class*="text-teal"]):not([class*="text-red"]):not([class*="text-emerald"]):not([class*="text-sky"]):not([class*="text-amber"]):not([class*="bg-clip-text"]) {
+  color: inherit;
+}
+
+/* --- Links (non-button) --- */
+.dark-mode a:not(.btn-grad):not(.btn-yellow):not(.btn-mint) {
+  color: inherit;
+}
+
+/* =============================================
+   DARK MODE – TAILWIND UTILITY CLASS OVERRIDES
+   (Targeting both .dark-mode on html AND
+    Tailwind's dark: classes now that .dark is set)
+   ============================================= */
+
+/* Gray text scale */
+.dark-mode .text-gray-900 { color: #F8FAFC !important; }
+.dark-mode .text-gray-800 { color: #F1F5F9 !important; }
+.dark-mode .text-gray-700 { color: #E2E8F0 !important; }
+.dark-mode .text-gray-600 { color: #CBD5E1 !important; }
+.dark-mode .text-gray-500 { color: #94A3B8 !important; }
+.dark-mode .text-gray-400 { color: #64748B !important; }
+.dark-mode .text-gray-300 { color: #94A3B8 !important; }
+.dark-mode .text-gray-200 { color: #64748B !important; }
+
+/* Slate text scale */
+.dark-mode .text-slate-900 { color: #F8FAFC !important; }
+.dark-mode .text-slate-800 { color: #F1F5F9 !important; }
+.dark-mode .text-slate-700 { color: #E2E8F0 !important; }
+.dark-mode .text-slate-600 { color: #CBD5E1 !important; }
+.dark-mode .text-slate-500 { color: #94A3B8 !important; }
+.dark-mode .text-slate-400 { color: #64748B !important; }
+.dark-mode .text-slate-300 { color: #94A3B8 !important; }
+.dark-mode .text-slate-200 { color: #E2E8F0 !important; }
+
+/* Background overrides for light-only backgrounds */
+.dark-mode .bg-white { background-color: #1e293b !important; }
+.dark-mode .bg-gray-50 { background-color: #111827 !important; }
+.dark-mode .bg-gray-100 { background-color: #1e293b !important; }
+.dark-mode .bg-slate-50 { background-color: #111827 !important; }
+.dark-mode .bg-slate-100 { background-color: #1e293b !important; }
+
+/* Pink states in dark mode (like/hover) */
+.dark-mode .bg-pink-50  { background-color: rgba(236,72,153,0.1) !important; }
+.dark-mode .bg-pink-100 { background-color: rgba(236,72,153,0.15) !important; }
+
+/* Border overrides */
+.dark-mode .border-gray-200 { border-color: rgba(255,255,255,0.08) !important; }
+.dark-mode .border-gray-300 { border-color: rgba(255,255,255,0.1) !important; }
+
+/* =============================================
+   DARK MODE – INPUTS / SELECTS / TEXTAREAS
+   ============================================= */
+
+.dark-mode input,
+.dark-mode textarea {
+  background-color: var(--input-bg) !important;
+  color: var(--input-text) !important;
+  border-color: var(--input-border) !important;
+}
+
+.dark-mode input::placeholder,
+.dark-mode textarea::placeholder {
+  color: var(--input-placeholder) !important;
+  opacity: 1 !important;
+}
+
+.dark-mode select {
+  background-color: var(--input-bg) !important;
+  color: var(--input-text) !important;
+  border-color: var(--input-border) !important;
+  color-scheme: dark;
+}
+
+.dark-mode select option {
+  background-color: #1e293b;
+  color: #F1F5F9;
+}
+
+/* Range input track */
+.dark-mode input[type="range"] {
+  background-color: transparent !important;
+}
+
+/* =============================================
+   DARK MODE – AMBIENT BACKGROUND
+   ============================================= */
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 80% 50% at 10% 15%, rgba(108,99,255,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 80%, rgba(6,214,160,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 50% 50%, rgba(255,183,3,0.04) 0%, transparent 70%);
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.dark-mode body::before {
+  background:
+    radial-gradient(ellipse 70% 50% at 10% 15%, rgba(108,99,255,0.14) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 80%, rgba(6,214,160,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 55% 40%, rgba(139,128,249,0.08) 0%, transparent 70%);
+}
+
+/* =============================================
+   TYPOGRAPHY
+   ============================================= */
+h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); }
+.font-ui { font-family: var(--font-ui); }
+p, span, a, li { font-family: var(--font-body); }
+
+/* =============================================
+   GLASSMORPHISM
+   ============================================= */
+.glass-panel {
+  background: var(--card-bg);
+  backdrop-filter: blur(20px) saturate(1.8);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  border: 1px solid var(--card-border);
+  box-shadow:
+    0 8px 32px var(--shadow),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+.glass-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(14px) saturate(1.6);
+  -webkit-backdrop-filter: blur(14px) saturate(1.6);
+  border: 1px solid var(--card-border);
+  box-shadow:
+    0 4px 20px var(--shadow),
+    0 1px 0 rgba(255,255,255,0.18) inset;
+  transition:
+    transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    box-shadow 0.35s ease;
+}
+.glass-card:hover {
+  transform: translateY(-10px) scale(1.01);
+  box-shadow:
+    0 24px 48px rgba(108, 99, 255, 0.18),
+    0 8px 20px rgba(6, 214, 160, 0.06),
+    0 1px 0 rgba(255,255,255,0.22) inset;
+}
+
+/* Card text: always inherit from card container */
+.dark-mode .glass-card,
+.dark-mode .glass-panel {
+  color: var(--text-primary);
+}
+.dark-mode .glass-card h1,
+.dark-mode .glass-card h2,
+.dark-mode .glass-card h3,
+.dark-mode .glass-card h4,
+.dark-mode .glass-card h5,
+.dark-mode .glass-card h6,
+.dark-mode .glass-panel h1,
+.dark-mode .glass-panel h2,
+.dark-mode .glass-panel h3,
+.dark-mode .glass-panel h4 {
+  color: var(--text-primary);
+}
+
+/* =============================================
+   COVER ART / IMAGE CONTAINER BACKGROUNDS
+   ============================================= */
+
+/* Light: slate-100 bg for illustration containers */
+.dark-mode .glass-card [class*="aspect-"],
+.dark-mode .glass-card [class*="bg-slate-100"] {
+  background-color: var(--cover-bg) !important;
+}
+
+/* =============================================
+   NEUMORPHISM
+   ============================================= */
+.neumorphic-card {
+  background: #f5f3ef;
+  border-radius: 24px;
+  box-shadow:
+    8px 8px 20px rgba(163, 177, 198, 0.35),
+    -8px -8px 20px rgba(255, 255, 255, 0.9);
+}
+.dark-mode .neumorphic-card {
+  background: #161e30;
+  box-shadow:
+    6px 6px 18px rgba(0,0,0,0.5),
+    -6px -6px 18px rgba(255,255,255,0.04);
+}
+
+/* =============================================
+   BUTTONS
+   ============================================= */
+.btn-grad {
+  background: linear-gradient(135deg, var(--purple) 0%, #7c73ff 50%, var(--purple-light) 100%);
+  color: #ffffff !important;
+  box-shadow: 0 4px 18px rgba(108, 99, 255, 0.35);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+.btn-grad::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.btn-grad:hover {
+  box-shadow: 0 10px 30px rgba(108, 99, 255, 0.5), 0 0 0 3px rgba(108,99,255,0.15);
+  transform: translateY(-3px);
+}
+.btn-grad:hover::after { opacity: 1; }
+.btn-grad:active { transform: translateY(0); box-shadow: 0 4px 12px rgba(108,99,255,0.3); }
+
+.btn-yellow {
+  background: linear-gradient(135deg, #FFD166 0%, #FFB703 100%);
+  color: #5D4037 !important;
+  box-shadow: 0 4px 18px rgba(255, 183, 3, 0.35);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.btn-yellow:hover {
+  box-shadow: 0 10px 30px rgba(255,183,3,0.5), 0 0 0 3px rgba(255,183,3,0.15);
+  transform: translateY(-3px);
+}
+
+.btn-mint {
+  background: linear-gradient(135deg, #06D6A0 0%, #05b184 100%);
+  color: #ffffff !important;
+  box-shadow: 0 4px 18px rgba(6, 214, 160, 0.35);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.btn-mint:hover {
+  box-shadow: 0 10px 30px rgba(6,214,160,0.5), 0 0 0 3px rgba(6,214,160,0.15);
+  transform: translateY(-3px);
+}
+
+/* ---- Font-size buttons (inactive state in dark) ---- */
+.dark-mode .font-size-btn:not(.bg-purple):not([class*="bg-purple"]) {
+  border-color: rgba(108,99,255,0.35);
+  color: #CBD5E1;
+}
+.dark-mode .font-size-btn:not(.bg-purple):hover {
+  background-color: var(--purple);
+  color: #ffffff;
+}
+
+/* =============================================
+   KEYFRAME ANIMATIONS
+   ============================================= */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-14px) rotate(1.5deg); }
+  66%       { transform: translateY(-7px) rotate(-1deg); }
+}
+@keyframes float-delayed {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-18px) rotate(-2deg); }
+}
+@keyframes pulse-glow {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(108, 99, 255, 0.45)); }
+  50%       { filter: drop-shadow(0 0 18px rgba(108, 99, 255, 0.85)); }
+}
+@keyframes sparkle-spin {
+  0%   { transform: rotate(0deg) scale(1); opacity: 0.8; }
+  50%  { transform: rotate(180deg) scale(1.2); opacity: 1; }
+  100% { transform: rotate(360deg) scale(1); opacity: 0.8; }
+}
+@keyframes drift-left {
+  0%, 100% { transform: translateX(-4%); }
+  50%       { transform: translateX(4%); }
+}
+@keyframes bounce-in {
+  0%   { transform: scale(0.8) translateY(20px); opacity: 0; }
+  60%  { transform: scale(1.06) translateY(-4px); opacity: 1; }
+  80%  { transform: scale(0.97) translateY(2px); }
+  100% { transform: scale(1) translateY(0); }
+}
+@keyframes slide-up-fade {
+  from { transform: translateY(30px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+@keyframes progress-bar {
+  from { background-position: 0 0; }
+  to   { background-position: 30px 0; }
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50%       { opacity: 1;   transform: scale(1.2); }
+}
+@keyframes hero-float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+/* ---- Animation utility classes ---- */
+.animate-float          { animation: float 7s ease-in-out infinite; }
+.animate-float-delayed  { animation: float-delayed 9s ease-in-out infinite; animation-delay: 1.5s; }
+.animate-float-slow     { animation: float 12s ease-in-out infinite; animation-delay: 3s; }
+.animate-pulse-glow     { animation: pulse-glow 3s ease-in-out infinite; }
+.animate-sparkle        { animation: sparkle-spin 4s linear infinite; }
+.animate-drift          { animation: drift-left 14s ease-in-out infinite; }
+.animate-bounce-in      { animation: bounce-in 0.6s ease-out forwards; }
+.animate-slide-up       { animation: slide-up-fade 0.6s ease-out forwards; }
+.animate-twinkle        { animation: twinkle 2s ease-in-out infinite; }
+.animate-hero           { animation: hero-float 6s ease-in-out infinite; }
+
+/* =============================================
+   DECORATIVE BLOBS
+   ============================================= */
+.decor-blob {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(60px);
+}
+
+/* =============================================
+   NAVBAR
+   ============================================= */
+#main-navbar {
+  background: var(--navbar-bg);
+  transition: padding 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+.navbar-scrolled {
+  box-shadow: 0 4px 24px rgba(108,99,255,0.12) !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+.dark-mode .navbar-scrolled {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5) !important;
+}
+
+/* Nav links */
+.dark-mode #main-navbar a:not(.btn-grad):not(.btn-yellow):not(.btn-mint) {
+  color: #CBD5E1;
+}
+.dark-mode #main-navbar a:not(.btn-grad):not(.btn-yellow):not(.btn-mint):hover {
+  color: var(--purple-light);
+}
+
+/* Mobile menu items */
+.dark-mode #mobile-menu a:not(.btn-grad) {
+  color: #CBD5E1 !important;
+}
+.dark-mode #mobile-menu a:not(.btn-grad):hover {
+  color: var(--purple-light) !important;
+}
+
+/* =============================================
+   SEARCH BAR & SUGGESTIONS
+   ============================================= */
+.dark-mode #search-suggestions {
+  background: #1e293b !important;
+  border-color: rgba(108,99,255,0.30) !important;
+  color: var(--text-primary);
+}
+
+/* Suggestion item text */
+.dark-mode #search-suggestions [class*="text-slate-800"] {
+  color: #E2E8F0 !important;
+}
+.dark-mode #search-suggestions [class*="hover:bg-purple"] {
+  color: var(--text-primary);
+}
+
+/* Clear search button */
+.dark-mode #clear-search {
+  color: #94A3B8;
+}
+
+/* =============================================
+   FILTER LABELS & CHIPS
+   ============================================= */
+/* Filter section labels (Category, Age Group, etc.) */
+.dark-mode label[class*="text-purple"] {
+  /* keep purple — already visible */
+  opacity: 1;
+}
+
+/* Active filter chip remove button */
+.dark-mode #active-filters button {
+  color: var(--purple-light);
+  background-color: rgba(108,99,255,0.15);
+  border-color: rgba(108,99,255,0.30);
+}
+
+/* =============================================
+   STORY CARDS (JS-rendered)
+   ============================================= */
+/* Illustration container bg */
+.dark-mode .glass-card > div:first-child[class*="aspect-"] {
+  background-color: var(--cover-bg);
+}
+
+/* Story title in cards */
+.dark-mode .glass-card h3 { color: var(--text-primary) !important; }
+.dark-mode .glass-card h4 { color: var(--text-primary) !important; }
+
+/* Description text in cards */
+.dark-mode .glass-card p  { color: var(--text-secondary) !important; }
+
+/* Category badge (dark pill on cover art) */
+/* Already uses bg-slate-900/65 text-white — fine in both modes */
+
+/* Reading time, age, rating meta row */
+.dark-mode .glass-card [class*="text-purple-light"] { color: var(--purple-light) !important; }
+
+/* Favorite heart button */
+.dark-mode .fav-btn {
+  background-color: rgba(15,23,42,0.9) !important;
+  color: #fb7185 !important;
+}
+
+/* =============================================
+   CATEGORY CARDS
+   ============================================= */
+.category-card {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+}
+.category-card:hover {
+  transform: translateY(-8px) rotate(-0.5deg) scale(1.02);
+  box-shadow: 0 20px 40px rgba(108,99,255,0.18);
+}
+
+/* =============================================
+   STORY TEXT (READ PAGE)
+   ============================================= */
+.story-text-container p {
+  margin-bottom: 1.8rem;
+  transition: font-size 0.3s ease, line-height 0.3s ease;
+}
+.text-size-sm   .story-text-container p { font-size: 1.0rem;  line-height: 1.85; }
+.text-size-base .story-text-container p { font-size: 1.2rem;  line-height: 1.95; }
+.text-size-lg   .story-text-container p { font-size: 1.45rem; line-height: 2.0; }
+.text-size-xl   .story-text-container p { font-size: 1.75rem; line-height: 2.05; }
+
+.story-text-container p      { color: var(--text-primary); }
+.dark-mode .story-text-container p { color: #E2E8F0; }
+.story-text-container strong { color: var(--purple); }
+.story-text-container em     { color: var(--text-muted-css); font-style: italic; }
+
+/* =============================================
+   READ PAGE – SIDEBAR TOOLS
+   ============================================= */
+
+/* Section labels (e.g. "Listen Out Loud", "Font Size") */
+.dark-mode aside h3[class*="text-slate-500"],
+.dark-mode aside h3[class*="text-slate-400"] {
+  color: #94A3B8 !important;
+}
+
+/* Speed label */
+.dark-mode #tts-speed-label { color: var(--purple-light); }
+
+/* "Back to Library" link */
+.dark-mode aside a[class*="text-gray-400"] {
+  color: #94A3B8 !important;
+}
+.dark-mode aside a:hover {
+  color: var(--purple-light) !important;
+}
+
+/* Reading progress sidebar labels */
+.dark-mode #progress-pct      { color: var(--purple-light); }
+.dark-mode aside h3[class*="text-slate-400"] { color: #94A3B8 !important; }
+
+/* =============================================
+   READ PAGE – STORY HEADER
+   ============================================= */
+
+/* Breadcrumb trail */
+.dark-mode nav [class*="text-gray-400"] { color: #64748B !important; }
+
+/* Story meta (author, time, rating) */
+.dark-mode [class*="text-gray-400"][class*="font-ui"] { color: #64748B !important; }
+
+/* Story tags label */
+.dark-mode h4[class*="text-gray-400"] { color: #64748B !important; }
+
+/* Story tags (badges) */
+.dark-mode #story-tags span {
+  background-color: rgba(108,99,255,0.18) !important;
+  color: var(--purple-light) !important;
+  border-color: rgba(108,99,255,0.25) !important;
+}
+
+/* =============================================
+   READ PAGE – MORAL BOX
+   ============================================= */
+.dark-mode #moral-box {
+  background: linear-gradient(135deg, rgba(108,99,255,0.12) 0%, rgba(6,214,160,0.08) 100%) !important;
+  border-color: rgba(108,99,255,0.25) !important;
+}
+.dark-mode #story-moral { color: #CBD5E1 !important; }
+
+/* =============================================
+   READ PAGE – PREV / NEXT NAVIGATION
+   ============================================= */
+.dark-mode #prev-story-link [class*="text-gray-400"],
+.dark-mode #next-story-link [class*="text-gray-400"] {
+  color: #64748B !important;
+}
+.dark-mode #prev-story-title,
+.dark-mode #next-story-title { color: #E2E8F0 !important; }
+
+/* =============================================
+   READ PAGE – RELATED STORIES
+   ============================================= */
+.dark-mode #related-stories-grid h4 { color: var(--text-primary) !important; }
+.dark-mode #related-stories-grid [class*="text-gray-400"] { color: #64748B !important; }
+
+/* =============================================
+   READ PAGE – REVIEWS
+   ============================================= */
+
+/* Review card text */
+.dark-mode #reviews-list p[class*="text-gray-600"] { color: #CBD5E1 !important; }
+.dark-mode #reviews-list h5[class*="text-slate-800"] { color: var(--text-primary) !important; }
+.dark-mode #reviews-list span[class*="text-gray-400"] { color: #64748B !important; }
+
+/* Empty review state */
+.dark-mode #reviews-list p[class*="text-gray-400"] { color: #64748B !important; }
+.dark-mode #reviews-list p[class*="text-slate-500"] { color: #64748B !important; }
+
+/* Empty stars (unselected in form) */
+.dark-mode .star-btn { color: #475569 !important; }
+.dark-mode .star-btn:hover { color: var(--yellow) !important; }
+
+/* Review star rating empty stars in rendered reviews */
+.dark-mode #reviews-list span[class*="text-gray-200"] { color: #334155 !important; }
+
+/* Rating val display */
+.dark-mode #rating-val { color: #94A3B8 !important; }
+
+/* Review "Rating:" label */
+.dark-mode [class*="text-slate-400"][class*="font-ui"] { color: #94A3B8 !important; }
+
+/* Review form label */
+.dark-mode #reviews-section h2 { color: var(--text-primary) !important; }
+.dark-mode #reviews-section h3[class*="text-purple"] { color: var(--purple-light) !important; }
+
+/* =============================================
+   TESTIMONIALS
+   ============================================= */
+.dark-mode .testimonial-track p[class*="text-gray-700"] { color: #CBD5E1 !important; }
+.dark-mode .testimonial-track h4[class*="text-slate-800"] { color: var(--text-primary) !important; }
+.dark-mode .testimonial-track p[class*="text-gray-500"] { color: #94A3B8 !important; }
+
+/* =============================================
+   READING PROGRESS BAR
+   ============================================= */
+#reading-progress {
+  background: linear-gradient(90deg, var(--purple) 0%, var(--mint) 50%, var(--yellow) 100%);
+  background-size: 200% 100%;
+  animation: progress-bar 2s linear infinite;
+  box-shadow: 0 0 10px rgba(108,99,255,0.5);
+  transition: width 0.1s linear;
+}
+
+/* =============================================
+   TOAST NOTIFICATIONS
+   ============================================= */
+#toast-container {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: none;
+}
+.toast {
+  pointer-events: all;
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--text-primary);
+  border-left: 4px solid var(--purple);
+  padding: 14px 20px;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transform: translateX(120%);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.25);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.85rem;
+  min-width: 280px;
+  max-width: 380px;
+}
+.toast.show { transform: translateX(0); }
+.toast.border-red-500     { border-left-color: #EF4444; }
+.toast.border-sky-400     { border-left-color: var(--blue-soft); }
+.toast.border-emerald-400 { border-left-color: var(--mint); }
+
+/* Dark toast text */
+.dark-mode .toast { color: var(--text-primary); }
+
+/* =============================================
+   SKELETON LOADER
+   ============================================= */
+.skeleton {
+  background: linear-gradient(90deg,
+    rgba(180,180,200,0.15) 25%,
+    rgba(180,180,200,0.30) 50%,
+    rgba(180,180,200,0.15) 75%);
+  background-size: 400% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+.dark-mode .skeleton {
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0.04) 25%,
+    rgba(255,255,255,0.09) 50%,
+    rgba(255,255,255,0.04) 75%);
+  background-size: 400% 100%;
+}
+
+/* =============================================
+   CUSTOM SCROLLBAR
+   ============================================= */
+::-webkit-scrollbar       { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--purple), var(--mint));
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--purple-dark); }
+
+/* =============================================
+   TESTIMONIAL SLIDER
+   ============================================= */
+.testimonial-track {
+  display: flex;
+  transition: transform 0.55s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* =============================================
+   SCROLL-TO-TOP
+   ============================================= */
+#scroll-to-top { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+#scroll-to-top:hover { transform: translateY(-4px) scale(1.1) !important; }
+
+/* =============================================
+   PULSE BADGE
+   ============================================= */
+@keyframes pulse-ring {
+  0%   { transform: scale(0.95); opacity: 0.8; }
+  100% { transform: scale(1.5);  opacity: 0; }
+}
+.pulse-badge::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 2px solid var(--mint);
+  animation: pulse-ring 1.8s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+}
+
+/* =============================================
+   COUNTER BOXES
+   ============================================= */
+.counter-box { transition: transform 0.3s ease; }
+.counter-box:hover { transform: scale(1.06); }
+
+/* =============================================
+   SECTION DIVIDERS
+   ============================================= */
+.section-wave { overflow: hidden; line-height: 0; transform: rotate(180deg); }
+.section-wave svg { display: block; }
+
+/* =============================================
+   STAR RATING HOVER
+   ============================================= */
+.star-btn { transition: transform 0.2s ease; }
+.star-btn:hover { transform: scale(1.3) rotate(10deg); }
+
+/* =============================================
+   INPUT FOCUS GLOW
+   ============================================= */
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.22);
+}
+
+/* =============================================
+   EMPTY STATE
+   ============================================= */
+.dark-mode #empty-state h3 { color: #E2E8F0 !important; }
+.dark-mode #empty-state p  { color: #64748B !important; }
+
+/* =============================================
+   FILTER HEADING
+   ============================================= */
+.dark-mode #filter-title { color: var(--text-primary) !important; }
+.dark-mode #filter-count { color: #94A3B8 !important; }
+
+/* =============================================
+   FOOTER
+   ============================================= */
+/* Footer is always dark (bg-slate-900) — stays consistent */
+footer .text-slate-400 { color: #94A3B8; }
+footer .text-slate-500 { color: #64748B; }
+footer .text-white     { color: #F8FAFC; }
+footer a               { color: inherit; }
+footer a:hover         { color: #F8FAFC; }
+
+/* =============================================
+   "ALL LOADED" / LOAD MORE MESSAGE
+   ============================================= */
+.dark-mode #all-loaded-msg { color: #64748B !important; }
+
+/* =============================================
+   AOS OVERRIDE
+   ============================================= */
+[data-aos] { pointer-events: none; }
+[data-aos].aos-animate { pointer-events: auto; }

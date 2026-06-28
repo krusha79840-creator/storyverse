@@ -11,7 +11,8 @@
     (function(){
       try {
         var t = localStorage.getItem('storyverse_dark_mode');
-        if (t === 'enabled') {
+        // Default to dark: only skip dark classes if user explicitly chose light
+        if (t !== 'disabled') {
           document.documentElement.classList.add('dark-mode', 'dark');
         }
       } catch(e) {}
@@ -309,6 +310,8 @@
   <script src="assets/js/illustrations.js"></script>
   <script src="assets/js/core.js"></script>
   <script src="assets/js/read.js"></script>
+
+  <!-- Chatbot -->
   <script src='https://www.noupe.com/embed/019f0cb546ff78939100baf79744f13c9789.js'></script>
 </body>
 </html>

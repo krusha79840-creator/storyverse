@@ -938,14 +938,144 @@
   .stat-number { font-size: 1.75rem; }
   .cta-section { margin: 0 12px; border-radius: 28px; }
 }
+
 @media (max-width: 768px) {
   .hero-section { padding-top: 80px; }
   .stats-glass-pill { flex-wrap: wrap; gap: 20px; justify-content: center; }
   .stat-divider { display: none; }
   .cta-section { margin: 0 8px; border-radius: 24px; }
   .hero-svg-frame { border-radius: 20px; }
+
+  /* Hero orbs: clip negative offsets so they don't cause horizontal scroll */
+  .hero-orb {
+    max-width: 200px;
+    max-height: 200px;
+  }
+
+  /* Hero illustration: full width on tablets */
+  .hero-illustration-wrap {
+    width: 100%;
+    max-width: 100% !important;
+    flex: none;
+  }
+
+  /* Hero content center on mobile */
+  .hero-content {
+    text-align: center;
+  }
+
+  /* Testimonial text size */
+  .testimonial-text { font-size: 1rem; }
+
+  /* Feature cards: reduce padding */
+  .feature-card { padding: 24px 20px; }
 }
+
 @media (max-width: 480px) {
-  .btn-hero-primary, .btn-hero-secondary { padding: 14px 24px; font-size: 0.9rem; }
-  .cat-card-name { font-size: 0.88rem; }
+  /* Hero heading: use clamp so it scales gracefully */
+  .hero-heading {
+    font-size: clamp(1.9rem, 8vw, 2.6rem) !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.01em;
+  }
+
+  /* Hero gradient text must not overflow */
+  .hero-gradient-text {
+    display: inline;
+    word-break: break-word;
+  }
+
+  /* CTA buttons: full width, stacked */
+  .hero-cta-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .btn-hero-primary,
+  .btn-hero-secondary {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 0.92rem;
+    justify-content: center;
+  }
+
+  /* Mini stats row: wrap and center */
+  .hero-mini-stats {
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .hero-mini-stat-value { font-size: 1.25rem; }
+
+  /* Scroll hint: hide on mobile to avoid z-index issues */
+  .hero-scroll-hint { display: none; }
+
+  /* Hero badge: smaller text */
+  .hero-badge {
+    font-size: 0.6rem;
+    padding: 5px 14px;
+    text-align: center;
+  }
+
+  /* Stats bar: single column */
+  .stats-glass-pill {
+    flex-direction: column;
+    align-items: center;
+    padding: 16px !important;
+    gap: 16px !important;
+  }
+
+  /* Category card: full width grid column */
+  .cat-card {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  /* Section eyebrow badge: wrap text */
+  .section-eyebrow {
+    text-align: center;
+    white-space: normal;
+    text-wrap: balance;
+  }
+
+  /* CTA section */
+  .cta-section {
+    margin: 0 4px !important;
+    border-radius: 16px !important;
+  }
+  .cta-title {
+    font-size: clamp(1.6rem, 6vw, 2.2rem);
+  }
+
+  /* Footer: reduce link spacing */
+  .footer-premium .grid {
+    gap: 24px;
+  }
+}
+
+@media (max-width: 375px) {
+  .hero-heading {
+    font-size: clamp(1.7rem, 7.5vw, 2rem) !important;
+  }
+
+  .stats-glass-pill {
+    padding: 12px !important;
+  }
+
+  /* Reduce hero section side padding */
+  .hero-section {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  .btn-hero-primary,
+  .btn-hero-secondary {
+    padding: 12px 16px;
+    font-size: 0.85rem;
+  }
+
+  /* Story card title smaller */
+  .story-card-title { font-size: 1rem; }
+
+  /* Feature card title */
+  .feature-card-title { font-size: 1.1rem; }
 }

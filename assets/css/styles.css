@@ -856,6 +856,29 @@ footer a:hover         { color: #F8FAFC; }
    Zero horizontal scroll across all pages.
    ============================================= */
 
+/* ---- ROOT CONTAINMENT: most important rule ----
+   Clamps the entire document to the viewport width.
+   This is a last-resort catch-all that ensures even
+   if a child element overflows, the page never
+   scrolls horizontally. Combined with the testimonial
+   slider fix below, this eliminates all cut-off. */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* ---- TESTIMONIAL SLIDER: primary overflow cause ----
+   The .testimonial-track holds 3 slides each min-w-full,
+   making it 300% wide. Its wrapper MUST clip it. */
+.testimonial-section-wrap,
+.testimonial-glass-wrap {
+  overflow: hidden !important;
+  max-width: 100%;
+}
+.testimonial-track {
+  width: 100%;
+}
+
 /* ---- Global containment ---- */
 img, svg, video, canvas, iframe {
   max-width: 100%;

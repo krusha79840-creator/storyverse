@@ -1074,27 +1074,8 @@ img, svg, video, canvas, iframe {
   }
 }
 
-/* ---- Force no horizontal overflow on all flex/grid containers ---- */
+/* ---- Prevent grid children from overflowing their cells ---- */
 @media (max-width: 768px) {
-  .flex { flex-wrap: wrap; }
-  .flex.flex-nowrap,
-  .flex.items-center,
-  nav .flex,
-  nav > div > .flex {
-    flex-wrap: nowrap; /* restore for nav and intentionally non-wrapping flex */
-  }
-
-  /* Ensure grids don't overflow */
-  [class*="grid-cols-"] {
-    overflow-x: hidden;
-  }
-
-  /* Sections max-width containment */
-  section, main, footer, nav, article, aside, header {
-    max-width: 100%;
-    overflow-x: hidden;
-  }
-
   /* Images and SVGs */
   img, svg {
     max-width: 100%;

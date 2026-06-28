@@ -741,7 +741,7 @@
 }
 .testimonial-glass-wrap {
   border-radius: 32px;
-  overflow: hidden;
+  overflow: hidden; /* CRITICAL: clips the 3-slide wide track so it never widens the page */
   position: relative;
 }
 .quote-mark {

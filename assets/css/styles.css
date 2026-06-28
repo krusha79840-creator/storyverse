@@ -80,7 +80,7 @@
    BASE RESET
    ============================================= */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; max-width: 100%; }
 
 body {
   background-color: var(--bg);
@@ -700,6 +700,7 @@ p, span, a, li { font-family: var(--font-body); }
   flex-direction: column;
   gap: 12px;
   pointer-events: none;
+  max-width: calc(100vw - 32px);
 }
 .toast {
   pointer-events: all;
@@ -719,8 +720,9 @@ p, span, a, li { font-family: var(--font-body); }
   font-family: var(--font-ui);
   font-weight: 600;
   font-size: 0.85rem;
-  min-width: 280px;
-  max-width: 380px;
+  min-width: min(280px, calc(100vw - 56px));
+  max-width: min(380px, calc(100vw - 32px));
+  word-break: break-word;
 }
 .toast.show { transform: translateX(0); }
 .toast.border-red-500     { border-left-color: #EF4444; }
@@ -848,3 +850,230 @@ footer a:hover         { color: #F8FAFC; }
    ============================================= */
 [data-aos] { pointer-events: none; }
 [data-aos].aos-animate { pointer-events: auto; }
+
+/* =============================================
+   MOBILE RESPONSIVENESS FIXES
+   Zero horizontal scroll across all pages.
+   ============================================= */
+
+/* ---- Global containment ---- */
+img, svg, video, canvas, iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prevent negative-margin blobs from causing scroll */
+.decor-blob {
+  overflow: hidden;
+  max-width: 100vw;
+}
+
+/* ---- 768px and below ---- */
+@media (max-width: 768px) {
+  /* Stories page: search bar input shrink */
+  #search-input {
+    font-size: 0.82rem;
+    padding: 12px 12px 12px 40px;
+  }
+
+  /* Read page: prevent sidebar overflow */
+  aside {
+    width: 100% !important;
+    position: static !important;
+  }
+
+  /* Read page: story title sizing */
+  #story-title {
+    font-size: 1.6rem;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Story text sizing */
+  .text-size-lg .story-text-container p  { font-size: 1.25rem; }
+  .text-size-xl .story-text-container p  { font-size: 1.45rem; }
+
+  /* Prevent glass-card inner content from overflowing */
+  .glass-card, .glass-panel {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Toast: shift anchor to bottom-left on small screens */
+  #toast-container {
+    right: 16px;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    align-items: stretch;
+  }
+  .toast {
+    min-width: unset;
+    max-width: 100%;
+    width: 100%;
+    transform: translateY(120%);
+  }
+  .toast.show { transform: translateY(0); }
+
+  /* Scroll to top button — keep away from toast */
+  #scroll-to-top {
+    bottom: 80px;
+    right: 16px;
+    left: auto;
+  }
+
+  /* Decor blobs — clip instead of hiding so aesthetics remain */
+  .decor-blob {
+    max-width: 50vw;
+    max-height: 50vw;
+  }
+}
+
+/* ---- 480px and below ---- */
+@media (max-width: 480px) {
+  /* Navbar padding */
+  #main-navbar {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  /* Hero heading line wrap */
+  .hero-heading {
+    font-size: 2.4rem !important;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
+  /* Stories page hero h1 */
+  .hero-section h1,
+  section h1 {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Filter grid: 1 column on very small screens */
+  .grid.grid-cols-2 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Prev / next story navigation cards */
+  #prev-story-link,
+  #next-story-link {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Related stories: single column */
+  #related-stories-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Review form: full width */
+  #review-form input,
+  #review-form textarea {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  /* Buttons in hero: full width on tiny screens */
+  .btn-hero-primary,
+  .btn-hero-secondary {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* Stats glass pill: single column */
+  .stats-glass-pill {
+    flex-direction: column;
+    padding: 16px !important;
+    gap: 12px !important;
+  }
+  .stat-divider { display: none; }
+
+  /* Category cards: ensure they don't overflow */
+  .cat-card {
+    max-width: 100%;
+  }
+
+  /* Story card title */
+  .story-card-title {
+    font-size: 1.1rem;
+  }
+
+  /* Font size buttons: smaller padding */
+  .font-size-btn {
+    padding: 8px 4px !important;
+    font-size: 10px !important;
+  }
+
+  /* Read page content padding */
+  article.glass-card {
+    border-radius: 16px !important;
+  }
+  .story-text-container {
+    padding: 0 !important;
+  }
+
+  /* Section paddings */
+  section.hero-section {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  /* CTA section margin */
+  .cta-section {
+    margin: 0 4px !important;
+    border-radius: 16px !important;
+  }
+
+  /* Footer newsletter form: stack */
+  .footer-newsletter-input {
+    border-radius: 10px;
+  }
+}
+
+/* ---- 375px and below ---- */
+@media (max-width: 375px) {
+  .hero-heading {
+    font-size: 2rem !important;
+  }
+
+  #main-navbar {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+
+  /* Logo text: hide on very small if needed */
+  .hero-badge span {
+    font-size: 0.6rem;
+  }
+}
+
+/* ---- Force no horizontal overflow on all flex/grid containers ---- */
+@media (max-width: 768px) {
+  .flex { flex-wrap: wrap; }
+  .flex.flex-nowrap,
+  .flex.items-center,
+  nav .flex,
+  nav > div > .flex {
+    flex-wrap: nowrap; /* restore for nav and intentionally non-wrapping flex */
+  }
+
+  /* Ensure grids don't overflow */
+  [class*="grid-cols-"] {
+    overflow-x: hidden;
+  }
+
+  /* Sections max-width containment */
+  section, main, footer, nav, article, aside, header {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Images and SVGs */
+  img, svg {
+    max-width: 100%;
+  }
+}

@@ -55,15 +55,16 @@
   <div class="decor-blob w-72 h-72 bg-mint/15 bottom-20 -left-16 opacity-30 animate-float-delayed" style="position:fixed;"></div>
 
   <!-- ===== STICKY NAVBAR ===== -->
-  <nav id="main-navbar" class="fixed top-0 left-0 w-full z-50 py-5 px-6 md:px-12 transition-all duration-300 glass-panel border-b border-white/20">
+  <nav id="main-navbar" class="fixed top-0 left-0 w-full z-50 py-5 px-4 md:px-12 transition-all duration-300 glass-panel border-b border-white/20">
     <div class="max-w-7xl mx-auto flex items-center justify-between">
-      <a href="index.html" class="flex items-center gap-2.5 select-none group">
+      <a href="index.html" class="flex items-center gap-2.5 select-none group flex-shrink-0">
         <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple to-mint flex items-center justify-center text-white shadow-lg shadow-purple/30 group-hover:rotate-12 transition-transform duration-300">
           <i data-lucide="sparkles" class="w-5 h-5"></i>
         </div>
         <span class="text-2xl font-bold bg-gradient-to-r from-purple to-mint bg-clip-text text-transparent font-heading leading-none">StoryVerse</span>
       </a>
 
+      <!-- Desktop Nav -->
       <div class="hidden md:flex items-center gap-8 font-ui font-semibold text-sm">
         <a href="index.html" class="text-gray-600 dark:text-gray-300 hover:text-purple dark:hover:text-purple-light transition-colors">Home</a>
         <a href="stories.html" class="text-purple border-b-2 border-purple pb-0.5">Stories</a>
@@ -72,15 +73,48 @@
         <a href="index.html#contact" class="text-gray-600 dark:text-gray-300 hover:text-purple dark:hover:text-purple-light transition-colors">Contact</a>
       </div>
 
-      <div class="flex items-center gap-3">
+      <!-- Desktop Actions -->
+      <div class="hidden md:flex items-center gap-3">
         <button onclick="StoryVerse.toggleTheme()" class="dark-mode-toggle-btn w-10 h-10 rounded-full flex items-center justify-center hover:bg-purple/10 border border-purple/15 transition-all hover:scale-110">
           <i data-lucide="moon" class="w-5 h-5 text-purple"></i>
         </button>
-        <a href="stories.html" class="hidden md:flex btn-grad px-6 py-2.5 rounded-full font-ui font-bold text-sm items-center gap-2">
+        <a href="stories.html" class="btn-grad px-6 py-2.5 rounded-full font-ui font-bold text-sm flex items-center gap-2">
           <span>Read Now</span>
           <i data-lucide="arrow-right" class="w-4 h-4"></i>
         </a>
       </div>
+
+      <!-- Mobile Controls -->
+      <div class="flex md:hidden items-center gap-2">
+        <button onclick="StoryVerse.toggleTheme()" class="dark-mode-toggle-btn w-9 h-9 rounded-full flex items-center justify-center hover:bg-purple/10 transition-all">
+          <i data-lucide="moon" class="w-5 h-5 text-purple"></i>
+        </button>
+        <button id="mobile-menu-btn" class="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-purple/10 transition-colors">
+          <i data-lucide="menu" class="w-5 h-5 text-gray-700 dark:text-slate-300"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden mt-3 pb-4 px-2 flex flex-col gap-1 font-ui font-semibold text-sm border-t border-purple/10 pt-3">
+      <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 dark:text-slate-200 hover:bg-purple/5 hover:text-purple transition-colors">
+        <i data-lucide="home" class="w-4 h-4"></i> Home
+      </a>
+      <a href="stories.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-purple bg-purple/5">
+        <i data-lucide="book-open" class="w-4 h-4"></i> Stories
+      </a>
+      <a href="index.html#categories" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 dark:text-slate-200 hover:bg-purple/5 hover:text-purple transition-colors">
+        <i data-lucide="layout-grid" class="w-4 h-4"></i> Categories
+      </a>
+      <a href="index.html#why-choose" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 dark:text-slate-200 hover:bg-purple/5 hover:text-purple transition-colors">
+        <i data-lucide="info" class="w-4 h-4"></i> About
+      </a>
+      <a href="index.html#contact" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 dark:text-slate-200 hover:bg-purple/5 hover:text-purple transition-colors">
+        <i data-lucide="mail" class="w-4 h-4"></i> Contact
+      </a>
+      <a href="stories.html" class="btn-grad mt-2 py-3 rounded-full flex items-center justify-center gap-2">
+        <i data-lucide="book-open" class="w-4 h-4"></i> Start Reading
+      </a>
     </div>
   </nav>
 
